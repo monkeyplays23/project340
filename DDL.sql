@@ -6,8 +6,8 @@ SET AUTOCOMMIT = 0;
 --  customers table --
 CREATE OR REPLACE TABLE Customers (
     cust_ID                     INT NOT NULL AUTO_INCREMENT,
-    cust_first_name             VARCHAR(255) NOT NULL,
-    cust_last_name              VARCHAR(255) NOT NULL,
+    cust_first_name             VARCHAR(50) NOT NULL,
+    cust_last_name              VARCHAR(50) NOT NULL,
     cust_email                  VARCHAR(255) NOT NULL,
     PRIMARY KEY (cust_ID)
 );
@@ -15,8 +15,8 @@ CREATE OR REPLACE TABLE Customers (
 --  purchases table --
 CREATE OR REPLACE TABLE Purchases (
     purch_ID                    INT NOT NULL AUTO_INCREMENT,
-    purch_date		            DATE NOT NULL,
-    cust_ID		                INT NOT NULL, 
+    purch_date	                DATE NOT NULL,
+    cust_ID                     INT NOT NULL, 
     PRIMARY KEY (purch_ID),
     FOREIGN KEY (cust_ID)       REFERENCES Customers(cust_ID)
 );
@@ -31,18 +31,18 @@ CREATE OR REPLACE TABLE Genres (
 
 --  developers table --
 CREATE OR REPLACE TABLE Developers (
-    dev_ID 			            INT AUTO_INCREMENT NOT NULL,
-    dev_name			        VARCHAR(255),
-    dev_location			    VARCHAR(255),
+    dev_ID                      INT AUTO_INCREMENT NOT NULL,
+    dev_name                    VARCHAR(255),
+    dev_location                VARCHAR(255),
     PRIMARY KEY (dev_ID)
 );
 
 --  games table --
 CREATE OR REPLACE TABLE Games (
-    game_ID   				    INT AUTO_INCREMENT NOT NULL,
-    game_title				    VARCHAR(255),
-    game_price     		 	    DECIMAL(19, 2) NOT NULL,
-    dev_ID				        INT,
+    game_ID                     INT AUTO_INCREMENT NOT NULL,
+    game_title                  VARCHAR(255),
+    game_price                  DECIMAL(19, 2) NOT NULL,
+    dev_ID                      INT,
     PRIMARY KEY (game_ID),
     FOREIGN KEY (dev_ID)        REFERENCES Developers (dev_ID)
 );
@@ -76,8 +76,8 @@ CREATE OR REPLACE TABLE Games_Purchases_Details (
 
 INSERT INTO Customers(
     cust_first_name,
-    cust_last_name,       
-    cust_email      
+    cust_last_name,
+    cust_email
 )
 VALUES (
     'Amanda',
