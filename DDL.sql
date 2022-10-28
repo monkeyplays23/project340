@@ -27,7 +27,7 @@ CREATE TABLE Purchases (
     cust_ID                 INT NOT NULL, 
     PRIMARY KEY (purch_ID),
     FOREIGN KEY (cust_ID)   REFERENCES Customers(cust_ID)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
 );
 
 --  genres table --
@@ -54,7 +54,7 @@ CREATE TABLE Games (
     dev_ID                 INT,
     PRIMARY KEY (game_ID),
     FOREIGN KEY (dev_ID)   REFERENCES Developers (dev_ID)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
 );
 
 --  game-genre inersection table --
@@ -63,9 +63,9 @@ CREATE TABLE Games_Genres_Details (
     genre_ID               INT NOT NULL,
     game_ID                INT NOT NULL,
     FOREIGN KEY (genre_ID) REFERENCES Genres(genre_ID)
-    ON DELETE CASCADE,
+    ON DELETE RESTRICT,
     FOREIGN KEY (game_ID)  REFERENCES Games(game_ID)
-    ON DELETE CASCADE,
+    ON DELETE RESTRICT,
     PRIMARY KEY (game_genre_details_ID)
 );
 
@@ -77,9 +77,9 @@ CREATE TABLE Games_Purchases_Details (
     game_ID                INT NOT NULL,
     game_price             DECIMAL(19, 2) NOT NULL,
     FOREIGN KEY (purch_ID) REFERENCES Purchases(purch_ID)
-    ON DELETE CASCADE,
+    ON DELETE RESTRICT,
     FOREIGN KEY (game_ID)  REFERENCES Games(game_ID)
-    ON DELETE CASCADE,
+    ON DELETE RESTRICT,
     PRIMARY KEY (game_purch_details_ID)
 );
 
