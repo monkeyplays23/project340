@@ -1,99 +1,91 @@
 <html>
 <head>
-<title>Customers</title>
+<title>Genres</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-<h1>Developers</h1>
+<h1>Genres</h1>
 
 [ <a href="customers.html">Customer</a> | <a href="games.html">Games</a> | <a href="developers.html"> Developers </a>| <a href="purchases.html">Purchases</a> | <a href="genres.html"> Genres</a> ]
 <div id="browse" style="display: block">
 
-<p>This page represents Developers.</p>
-<p><strong>Browse Developers</strong></p>
+<p>This page represents Genres.</p>
+<p><strong>Browse Genres</strong></p>
 <table border="1" cellpadding="5">
   <tr>
     <th><a href="#">New</a></th>
     <th></th>
-    <th>Developer ID</th>
-    <th>Name</th>
-    <th>Location</th>
+    <th>Genre ID</th>
+    <th>Title</th>
   </tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
     <td align="right" >1</td>
-    <td >Survivor Games</td>
-    <td >Russia</td>
+    <td >Sports</td>
   </tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
     <td align="right" >2</td>
-    <td >Sports n Stuff Creations</td>
-    <td >United States of America</td>
+    <td >Survival</td>
   </tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
     <td align="right" >3</td>
-    <td >Wargames Central</td>
-    <td >Germany</td>
+    <td >First Person Shooter</td>
   </tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
     <td align="right" >4</td>
-    <td >MovieBrand Games</td>
-    <td >United States of America</td>
+    <td >Horror</td>
   </tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
     <td align="right" >5</td>
-    <td >Spooks Unending</td>
-    <td >Japan</td>
+    <td >Story</td>
   </tr>
 </table>
 <p>&nbsp;</p>
 </div> <!-- browse -->
 <div id="insert" style="display: block">
-    <form id="addDeveloper">
-        <legend><strong>Add Developer</strong></legend>
+    <form id="addGenre">
+        <legend><strong>Add Genre</strong></legend>
           <fieldset class="fields">
-            <label> Name: </label> <input type="text" name="name">
-            <label> Location: </label> <input type="text" name="location">
+            <label> Genre Title: </label> <input type="text" name="gtitle">
           </fieldset>
-          <input class="btn" type="submit" id="addDeveloper" value="Add a Developer">
+          <input class="btn" type="submit" id="addGenre" value="Add a Genre">
           <input class="btn" type="button" value="Cancel">
-	</form> <!--add new Developer-->
+	</form> <!--add new Genre-->
 </div><!-- insert -->
 
 <p>&nbsp;</p>
 <div id="update" style="display: block">
-  <form id="updateDeveloper">
-      <legend><strong>Update Developer</strong></legend>
+  <form id="updateGenre">
+      <legend><strong>Update Genre</strong></legend>
           <fieldset class="fields">
-          <label>Developer ID:</label> 1
-          <label> Name:</label> <input type="text" name="name" value="Survivor Games">
-          <label> Location: </label> <input type="text" name="location" value="Russia">
+          <label>Genre ID:</label> 1
+          <label> Genre Title:  </label> <input type="text" name="gtitle" value="Sports">
     </fieldset>
-    <input class="btn" type="submit" id="UpdateSaveDeveloper" value="Save Update Developer">
+    <input class="btn" type="submit" id="UpdateSaveGenre" value="Save Update Genre">
           <input class="btn" type="button" value="Cancel" >
   </form> 
 </div><!-- update -->
 <p>&nbsp;</p>
 <div id="delete" style="display: block">
-  <form id="deleteDeveloper">
-      <legend><strong>Delete Developer</strong></legend>
+  <form id="deleteGenre">
+      <legend><strong>Delete Genre</strong></legend>
           <fieldset class="fields">
           <p>Are you sure you wish to delete the following?</p>
-          <label>Developer ID:</label> 1
-            <label> Name: </label> Survivor Games
+          <label>Genre ID:</label> 1
+          <label> Genre Title: </label> Sports
             
     </fieldset>
-    <input class="btn" type="submit" id="DeleteDeveloper" value="Delete Developer">
+    <input class="btn" type="submit" id="DeleteGenre" value="Delete Genre">
           <input class="btn" type="button" value="Cancel" >
   </form> 
 </div><!-- delete -->
