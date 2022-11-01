@@ -7,11 +7,17 @@
 <body>
 <h1>Games</h1>
 
+
 [ <a href="customers.html">Customer</a> | <a href="games.html">Games</a> | <a href="developers.html"> Developers </a>| <a href="purchases.html">Purchases</a> | <a href="genres.html"> Genres</a> ]
 <div id="browse" style="display: block">
 
 <p>This page represents both Games and Games_Genres_Details.</p>
 <p><strong>Browse Games</strong></p>
+
+<div class="topnav">
+  <input type="text" placeholder="Search Games by Name">
+</div>
+
 <table border="1" cellpadding="5">
   <tr>
     <th><a href="#">New</a></th>
@@ -136,7 +142,6 @@
             <label> Title: </label> <input type="text" name="title">
             <label> Price: </label> <input type="number" name="price">
             <label> Developer: </label> <select name="devs">
-            	<option value="0">&nbsp;</option>
                 <option value="1">Survivor Games</option>
                 <option value="2">Sports n Stuff Creations</option>
                 <option value="3">Wargames Central</option>
@@ -158,7 +163,6 @@
           <label> Title: </label> <input type="text" name="title" value="Man-Thing Heroes">
           <label> Price: </label> <input type="number" name="price" value="49.99">
           <label> Developer: </label> <select name="devs">
-            <option value="0">&nbsp;</option>
             <option value="1">Survivor Games</option>
             <option value="2" selected>Sports n Stuff Creations</option>
             <option value="3">Wargames Central</option>
