@@ -146,14 +146,15 @@ INNER JOIN Games                   ON Games.game_ID      = Games_Purchases_Detai
 ORDER BY purch_date ASC;
 
 -- Same as above but descending date
-SELECT 
+SELECT
     cust_first_name                     AS 'First Name', 
     cust_last_name                      AS 'Last Name',
     purch_date                          AS 'Purchase Date',
     game_title                          AS 'Title',
     Games_Purchases_Details.game_price  AS 'Price'
 FROM Customers 
-INNER JOIN Purchases               ON Customers.cust_ID  = Purchases.cust_ID 
-INNER JOIN Games_Purchases_Details ON Purchases.purch_ID = Games_Purchases_Details.purch_ID
-INNER JOIN Games                   ON Games.game_ID      = Games_Purchases_Details.game_ID
-ORDER BY purch_date DESC;
+JOIN Purchases               ON Customers.cust_ID  = Purchases.cust_ID 
+JOIN Games_Purchases_Details ON Purchases.purch_ID = Games_Purchases_Details.purch_ID
+JOIN Games                   ON Games.game_ID      = Games_Purchases_Details.game_ID
+WHERE Games_Purchases_Details.game_price > 30;
+
