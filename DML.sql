@@ -2,10 +2,9 @@
 --show all customer info in unformatted fashion--
 SELECT * FROM Customers;
 
---dynamic SELECT query
---TODO
+--dynamic SELECT from Games query
 SELECT * FROM Games 
-WHERE something_ID = :something_input AND someother_ID = :someother_id;  -- and so on if needed.  
+WHERE something_ID = :something_input AND someother_ID = :someother_id;  -- and so on if needed.  --todo
 
 -- add a new customer via html form --
 INSERT INTO Customers (cust_first_name, cust_last_name, cust_email)
@@ -48,11 +47,6 @@ SET game_ID = game_ID_input, genre_ID = (SELECT genre_ID FROM GENRES WHERE genre
                                         look for all checked boxes and run the sql query multiple times. If we can't figure it out we'll 
                                         change to another method of input*/
 WHERE game_genre_details_ID = :game_genre_details_ID_input;
-
--- insert into Games_Generes Details
-INSERT INTO Games_Genres_Details (dev_name, dev_location)
-VALUES (:dev_name_input,:dev_location_input);
-
 
 
 --DEVELOPERS--
@@ -102,8 +96,6 @@ WHERE game_purch_details_ID = :game_purch_details_ID_input;
 
 -- delete a game-Purchase detail via html
 DELETE FROM Games_Purchases_Details WHERE game_purch_details_ID = :game_purch__detailsID_input;
-
-
 
 --Etcetera Queries--
 /*Not sure how many of these will actually be implemented*/
