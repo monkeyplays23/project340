@@ -3,69 +3,88 @@
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
+DROP TABLE IF EXISTS Customers;
+DROP TABLE IF EXISTS Purchases;
+DROP TABLE IF EXISTS Genres;
+DROP TABLE IF EXISTS Developers;
+DROP TABLE IF EXISTS Games;
+DROP TABLE IF EXISTS Games_Genres_Details;
+DROP TABLE IF EXISTS Games_Purchases_Details;
+
 --  customers table --
-CREATE OR REPLACE TABLE Customers (
-    cust_ID                     INT NOT NULL AUTO_INCREMENT,
-    cust_first_name             VARCHAR(255) NOT NULL,
-    cust_last_name              VARCHAR(255) NOT NULL,
-    cust_email                  VARCHAR(255) NOT NULL,
+CREATE TABLE Customers (
+    cust_ID                 INT NOT NULL AUTO_INCREMENT,
+    cust_first_name         VARCHAR(50) NOT NULL,
+    cust_last_name          VARCHAR(50) NOT NULL,
+    cust_email              VARCHAR(255) NOT NULL,
     PRIMARY KEY (cust_ID)
 );
 
 --  purchases table --
-CREATE OR REPLACE TABLE Purchases (
-    purch_ID                    INT NOT NULL AUTO_INCREMENT,
-    purch_date		            DATE NOT NULL,
-    cust_ID		                INT NOT NULL, 
+CREATE TABLE Purchases (
+    purch_ID                INT NOT NULL AUTO_INCREMENT,
+    purch_date	            DATE NOT NULL,
+    cust_ID                 INT NOT NULL, 
     PRIMARY KEY (purch_ID),
-    FOREIGN KEY (cust_ID)       REFERENCES Customers(cust_ID)
+    FOREIGN KEY (cust_ID)   REFERENCES Customers(cust_ID)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
 );
 
 --  genres table --
-CREATE OR REPLACE TABLE Genres (
-    genre_ID                    INT AUTO_INCREMENT NOT NULL,
-    genre_title                 VARCHAR(255),
+CREATE TABLE Genres (
+    genre_ID                INT AUTO_INCREMENT NOT NULL,
+    genre_title             VARCHAR(255),
     PRIMARY KEY (genre_ID)
 );
 
 
 --  developers table --
-CREATE OR REPLACE TABLE Developers (
-    dev_ID 			            INT AUTO_INCREMENT NOT NULL,
-    dev_name			        VARCHAR(255),
-    dev_location			    VARCHAR(255),
+CREATE TABLE Developers (
+    dev_ID                 INT AUTO_INCREMENT NOT NULL,
+    dev_name               VARCHAR(255),
+    dev_location           VARCHAR(255),
     PRIMARY KEY (dev_ID)
 );
 
 --  games table --
-CREATE OR REPLACE TABLE Games (
-    game_ID   				    INT AUTO_INCREMENT NOT NULL,
-    game_title				    VARCHAR(255),
-    game_price     		 	    DECIMAL(19, 2) NOT NULL,
-    dev_ID				        INT,
+CREATE TABLE Games (
+    game_ID                INT AUTO_INCREMENT NOT NULL,
+    game_title             VARCHAR(255),
+    game_price             DECIMAL(19, 2) NOT NULL,
+    dev_ID                 INT,
     PRIMARY KEY (game_ID),
-    FOREIGN KEY (dev_ID)        REFERENCES Developers (dev_ID)
+    FOREIGN KEY (dev_ID)   REFERENCES Developers (dev_ID)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT
 );
 
 --  game-genre inersection table --
-CREATE OR REPLACE TABLE Games_Genres_Details (
-    game_genre_details_ID      INT AUTO_INCREMENT NOT NULL,
-    genre_ID                   INT NOT NULL,
-    game_ID                    INT NOT NULL,
-    FOREIGN KEY (genre_ID)     REFERENCES Genres(genre_ID),
-    FOREIGN KEY (game_ID)      REFERENCES Games(game_ID),
+CREATE TABLE Games_Genres_Details (
+    game_genre_details_ID  INT AUTO_INCREMENT NOT NULL,
+    genre_ID               INT NOT NULL,
+    game_ID                INT NOT NULL,
+    FOREIGN KEY (genre_ID) REFERENCES Genres(genre_ID)
+    ON DELETE RESTRICT,
+    FOREIGN KEY (game_ID)  REFERENCES Games(game_ID)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
     PRIMARY KEY (game_genre_details_ID)
 );
 
 
 --  game-purchases inersection table --
-CREATE OR REPLACE TABLE Games_Purchases_Details (
-    game_purch_details_ID      INT AUTO_INCREMENT NOT NULL,
-    purch_ID                   INT NOT NULL,
-    game_ID                    INT NOT NULL,
-    game_price                 DECIMAL(19, 2) NOT NULL,
-    FOREIGN KEY (purch_ID)     REFERENCES Purchases(purch_ID),
-    FOREIGN KEY (game_ID)      REFERENCES Games(game_ID),
+CREATE TABLE Games_Purchases_Details (
+    game_purch_details_ID  INT AUTO_INCREMENT NOT NULL,
+    purch_ID               INT NOT NULL,
+    game_ID                INT NOT NULL,
+    game_price             DECIMAL(19, 2) NOT NULL,
+    FOREIGN KEY (purch_ID) REFERENCES Purchases(purch_ID)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
+    FOREIGN KEY (game_ID)  REFERENCES Games(game_ID)
+    ON UPDATE CASCADE
+    ON DELETE RESTRICT,
     PRIMARY KEY (game_purch_details_ID)
 );
 
@@ -76,8 +95,8 @@ CREATE OR REPLACE TABLE Games_Purchases_Details (
 
 INSERT INTO Customers(
     cust_first_name,
-    cust_last_name,       
-    cust_email      
+    cust_last_name,
+    cust_email
 )
 VALUES (
     'Amanda',

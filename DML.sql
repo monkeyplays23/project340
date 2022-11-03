@@ -2,10 +2,13 @@
 --show all customer info in unformatted fashion--
 SELECT * FROM Customers;
 
+<<<<<<< HEAD
 --dynamic SELECT from Games query
 SELECT * FROM Games 
 WHERE something_ID = :something_input AND someother_ID = :someother_id;  -- and so on if needed.  --todo
 
+=======
+>>>>>>> main
 -- add a new customer via html form --
 INSERT INTO Customers (cust_first_name, cust_last_name, cust_email)
 VALUES (:first_name_input,:last_name_input, :email_input);
@@ -97,6 +100,11 @@ WHERE game_purch_details_ID = :game_purch_details_ID_input;
 -- delete a game-Purchase detail via html
 DELETE FROM Games_Purchases_Details WHERE game_purch_details_ID = :game_purch__detailsID_input;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> main
 --Etcetera Queries--
 /*Not sure how many of these will actually be implemented*/
 
