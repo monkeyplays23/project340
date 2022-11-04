@@ -2,9 +2,9 @@
 --show all customer info in unformatted fashion--
 SELECT * FROM Customers;
 
---dynamic SELECT from Games query
-SELECT * FROM Games 
-WHERE something_ID = :something_input AND someother_ID = :someother_id;  -- and so on if needed.  --todo
+--dynamic SELECT from any table query for searches 
+SELECT * FROM someTable 
+WHERE something_ID = :something_input AND someother_ID = :someother_id;  -- AND so on if needed depending on search type 
 
 -- add a new customer via html form --
 INSERT INTO Customers (cust_first_name, cust_last_name, cust_email)
