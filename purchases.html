@@ -4,13 +4,29 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
+<style>
+  tr:hover {
+    background-color: rgb(128, 203, 233);
+  }
+  tr.action {
+  visibility: collapse;
+  }
+  tr:hover + tr.action {
+  visibility: visible;
+  }</style>
+
+
 <body>
 <h1>Purchases</h1>
-[ <a href="customers.html">Customer</a> | <a href="games.html">Games</a> | <a href="developers.html"> Developers </a>| <a href="purchases.html">Purchases</a> | <a href="genres.html"> Genres</a> ]
+[ <a href="index.html">Home</a> | <a href="customers.html">Customer</a> | <a href="games.html">Games</a> | <a href="developers.html"> Developers </a>| <a href="#">Purchases</a> | <a href="genres.html"> Genres</a> ]
 <div id="browse" style="display: block">
 
-<p>This page represents both Purchases and Games_Purchases_Details.</p>
+<p>This page represents both Purchases and Games_Purchases_Details.
+  <br></br><strong>ALSO PLEASE HOVER OVER A ROW TO SEE ASSOCIATED INFORMATION FOR THAT ROW</strong>
+</p>
 <p><strong>Browse Purchases</strong></p>
+
+
 <table border="1" cellpadding="5">
   <tr>
     <th><a href="#">New</a></th>
@@ -26,6 +42,10 @@
     <td >2019-12-21</td>
     <td >Amanda Black</td>
   </tr>
+  <tr class="action">
+      <td colspan="4"></td>
+      <td align="right" colspan="1">Customer ID: 1</td>
+  </tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -33,6 +53,10 @@
     <td >2015-07-03</td>
     <td >Johnathan Lee</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Customer ID: 2</td>
+</tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -40,6 +64,10 @@
     <td >2021-08-04</td>
     <td >Amy Young</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Customer ID: 3</td>
+</tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -47,6 +75,10 @@
     <td >2022-01-09</td>
     <td >Wilbur Thorn</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Customer ID: 4</td>
+</tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -54,6 +86,10 @@
     <td >2018-04-18</td>
     <td >Charlotte Callaghan</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Customer ID: 5</td>
+</tr>
 </table>
 <p>&nbsp;</p>
 
@@ -75,6 +111,11 @@
     <td >Man-Thing Heroes</td>
     <td >49.99</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Game ID: 1</td>
+    <td colspan="1"></td>
+  <tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -83,6 +124,11 @@
     <td >Man-Thing Heroes</td>
     <td >49.99</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Game ID: 1</td>
+    <td colspan="1"></td>
+  <tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -91,6 +137,11 @@
     <td >Lost</td>
     <td >29.99</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Game ID: 2</td>
+    <td colspan="1"></td>
+  <tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -99,6 +150,11 @@
     <td >Zombies vs Cats</td>
     <td >19.99</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Game ID: 3</td>
+    <td colspan="1"></td>
+  <tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -107,6 +163,11 @@
     <td >Cowboy Shoot'em</td>
     <td >39.99</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Game ID: 4</td>
+    <td colspan="1"></td>
+  <tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -115,6 +176,11 @@
     <td >Man-Thing Heroes</td>
     <td >49.99</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Game ID: 1</td>
+    <td colspan="1"></td>
+  <tr>
   <tr>
     <td><a href="#">Edit</a></td>
     <td><a href="#">Delete</a></td>
@@ -123,6 +189,11 @@
     <td >Stranger Ranger</td>
     <td >59.99</td>
   </tr>
+  <tr class="action">
+    <td colspan="4"></td>
+    <td align="right" colspan="1">Game ID: 5</td>
+    <td colspan="1"></td>
+  <tr>
 </table>
 <p>&nbsp;</p>
 
@@ -132,8 +203,14 @@
         <legend><strong>Add Purchase</strong></legend>
           <fieldset class="fields">
             <label> Date: </label> <input type="date" name="date">
-            <label> Customer First Name: </label> <input type="text" name="customer">
-            <label> Customer Last Name: </label> <input type="text" name="customer">
+            <label> Customer ID: </label> <input type="number" name="cust_ID">
+            <label> Title: </label> <select name="devs">
+              <option value="1">Man-Thing Heroes</option>
+              <option value="2">Lost</option>
+              <option value="3">Zombies vs Cats</option>
+              <option value="4">Cowboy Shoot'em</option>
+              <option value="5">Stranger Ranger</option>
+              </select>
           </fieldset>
           <input class="btn" type="submit" id="addPurchase" value="Add a Purchase">
           <input class="btn" type="button" value="Cancel">
@@ -147,8 +224,7 @@
           <fieldset class="fields">
           <label>Purchase ID:</label> 1
           <label> Date: </label> <input type="date" name="date" value = 2019-12-21>
-          <label> Customer First Name: </label> <input type="text" name="customer" value="Amanda">
-          <label> Customer Last Name: </label> <input type="text" name="customer" value="Black">
+          <label> Customer ID: </label> <input type="numer" name="cust_ID" value="1">
     </fieldset>
     <input class="btn" type="submit" id="UpdateSavePurchase" value="Save Update Purchase">
           <input class="btn" type="button" value="Cancel" >
@@ -161,7 +237,8 @@
           <fieldset class="fields">
           <p>Are you sure you wish to delete the following?</p>
           <label>Purchase ID:</label> 1
-            <label> Customer: </label> Amanda Black
+          <label> Customer ID: </label> 1
+          <label> Customer: </label> Amanda Black
             
     </fieldset>
     <input class="btn" type="submit" id="DeletePurchase" value="Delete Purchase">
@@ -177,7 +254,13 @@
         <legend><strong>Add Purchase Details</strong></legend>
           <fieldset class="fields">
           <label> Purchase ID:</label> <input type="number" name="purch_ID">
-          <label> Title: </label> <input type="text" name="title">
+          <label> Title: </label> <select name="devs">
+            <option value="1">Man-Thing Heroes</option>
+            <option value="2">Lost</option>
+            <option value="3">Zombies vs Cats</option>
+            <option value="4">Cowboy Shoot'em</option>
+            <option value="5">Stranger Ranger</option>
+            </select>
           <label> Price: </label> <input type="number" name="price">
           </fieldset>
           <input class="btn" type="submit" id="addPurchaseDetails" value="Add a Purchase">
@@ -192,7 +275,13 @@
           <fieldset class="fields">
           <label> Details ID:</label> 1
           <label> Purchase ID:</label> <input type="number" name="purch_ID" value="1">
-          <label> Title: </label> <input type="text" name="title" value="Man-Thing Heroes">
+          <label> Title: </label> <select name="devs">
+            <option value="1" selected> Man-Thing Heroes</option>
+            <option value="2">Lost</option>
+            <option value="3">Zombies vs Cats</option>
+            <option value="4">Cowboy Shoot'em</option>
+            <option value="5">Stranger Ranger</option>
+            </select>
           <label> Price: </label> <input type="number" name="price" value="49.99">
           
     </fieldset>
