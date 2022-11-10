@@ -28,7 +28,75 @@ app.get('/', function(req, res)
     });                                                         // received back from the query
 
 
-// lister
+// POST ROUTES
+app.post('/add-person-ajax', function(req, res) 
+{
+    let data = req.body;
+
+    let cemail = parseInt(data.email);
+    if (isNaN(cemail))
+    {
+        cemail = 'NULL'
+    }
+
+
+    query1 = `INSERT INTO Customers (cust_first_name, cust_last_name, cust_email ) VALUES ('${data.fname}', '${data.lname}', ${email})`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        if (error) {
+
+            console.log(error)
+            res.sendStatus(400);
+        }
+        else
+        {
+            query2 = `SELECT * FROM Customers;`;
+            db.pool.query(query2, function(error, rows, fields){
+
+                if (error) {
+                    
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+
+                else
+                {
+                    res.send(rows);
+                }
+            })
+        }
+    })
+});
+
+app.post('/add-person-form', function(req, res){
+    let data = req.body;
+
+    let cemail = parseInt(data['input-homeworld']);
+    if (isNaN(homeworld))
+    {
+        homeworld = 'NULL'
+    }
+
+
+    query1 = `INSERT INTO Customers (cust_first_name, cust_last_name, cust_email) VALUES ('${data['input-fname']}', '${data['input-lname']}', ${email})`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        if (error) {
+
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else
+        {
+            res.redirect('/');
+        }
+    })
+})
+
+
+// listener 
+
 app.listen(PORT, function(){
     console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
 });

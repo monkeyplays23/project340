@@ -2,7 +2,7 @@
 <h1>The server is running!</h1>
 <p>If you see this text, the server is <strong>definitely</strong> working!</p>
 
-<table>
+<table  border="1" cellpadding="5">
 
     <thead>
         <tr>
@@ -25,3 +25,39 @@
         {{/each}}
     </tbody>
 </table>
+
+<h2>Adding Data with AJAX</h2>
+<p>To add a new person, please enter their information below and click 'Submit'!</p>
+<form id="add-person-form-ajax">
+    <label for="input-fname">First Name: </label>
+    <input type="text" name="input-fname" id="input-fname">
+    
+    <label for="input-lname">Last Name: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <label for="input-email">Email: </label>
+    <input type="number" name="input-email" id="input-email">
+
+
+    <input type="submit">
+</form>
+
+{{!-- Embed our javascript to handle the DOM manipulation and AJAX request --}}
+<script src="./js/add_person.js"></script>
+
+{{!-- Form to add a record to the table using standard HTML forms --}}
+<h2>Adding Data using an HTML form</h2>
+<p>To add a new person, please enter their information below and click `Submit`!</p>
+<form id="add-person-form" method="POST" action="/add-person-form">
+    <label for="input-fname">First Name: </label>
+    <input type="text" name="input-fname" id="input-fname">
+    
+    <label for="input-lname">Last Name: </label>
+    <input type="text" name="input-lname" id="input-lname">
+
+    <label for="input-email">Email: </label>
+    <input type="number" name="input-email" id="input-email">
+
+
+    <input type="submit">
+</form> 
