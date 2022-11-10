@@ -33,8 +33,8 @@ app.post('/add-person-ajax', function(req, res)
 {
     let data = req.body;
 
-    let cemail = parseInt(data.email);
-    if (isNaN(cemail))
+    let cemail = data.email;
+    if (!cemail)
     {
         cemail = 'NULL'
     }
@@ -71,10 +71,10 @@ app.post('/add-person-ajax', function(req, res)
 app.post('/add-person-form', function(req, res){
     let data = req.body;
 
-    let cemail = parseInt(data['input-homeworld']);
-    if (isNaN(homeworld))
+    let cemail = data['input-email'];
+    if (!cemail)
     {
-        homeworld = 'NULL'
+        cemail = 'NULL'
     }
 
 
