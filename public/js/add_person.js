@@ -15,7 +15,7 @@ addPersonForm.addEventListener("submit", function (e) {
     // Get the values from the form fields
     let firstNameValue = inputFirstName.value;
     let lastNameValue = inputLastName.value;
-    let emaildValue = inputEmail.value;
+    let emailValue = inputEmail.value;
 
 
     // Put our data we want to send in a javascript object
