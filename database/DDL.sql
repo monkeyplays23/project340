@@ -24,7 +24,7 @@ CREATE TABLE Customers (
 CREATE TABLE Purchases (
     purch_ID                INT NOT NULL AUTO_INCREMENT,
     purch_date	            DATE NOT NULL,
-    cust_ID                 INT NOT NULL, 
+    cust_ID                 INT NOT NULL,
     PRIMARY KEY (purch_ID),
     FOREIGN KEY (cust_ID)   REFERENCES Customers(cust_ID)
     ON UPDATE CASCADE
@@ -298,7 +298,6 @@ VALUES(
     (SELECT game_price FROM Games WHERE game_title = 'Stranger Ranger')
 );
 
---As of the moment only insert queries are implemented. No other kind of queries such as a total price calculation or how many times a game is ordered are included. --
 
 SET FOREIGN_KEY_CHECKS=1;
 COMMIT;
