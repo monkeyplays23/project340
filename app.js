@@ -41,7 +41,7 @@ app.get('/', function(req, res)
         })                                                      // an object where 'data' is equal to the 'rows' we
     });                                                        // received back from the query
 
-app.post('/addCustomer-AJAX', function(req, res)
+app.post('/addCustomer-AJAX/', function(req, res)
     {
         // Capture the incoming data and parse it back to a JS object
         let data = req.body;
@@ -67,7 +67,7 @@ app.post('/addCustomer-AJAX', function(req, res)
             }
             else
             {
-                // If there was no error, perform a SELECT * on bsg_people
+                // If there was no error, perform a SELECT * on Customer
                 query2 = `SELECT * FROM Customers;`;
                 db.pool.query(query2, function(error, rows, fields){
 
@@ -88,9 +88,50 @@ app.post('/addCustomer-AJAX', function(req, res)
         })
     });
 
+app.delete('/deleteCustomer-AJAX/', function(req,res,next){
+        let data = req.body;
+        let cust_ID = parseInt(data.cust_ID);
+        let deleteCustomer= `DELETE FROM Customers WHERE cust_ID = ?`
+        // Run the query
+        db.pool.query(deleteCustomer, [cust_ID], function(error, rows, fields) {
 
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            } else {
+                res.sendStatus(204);
+            }
+            })
+});
 
-    /*
+app.put('/putCustomer-AJAX/', function(req,res,next){
+    let data = req.body;
+
+    let customer = parseInt(data.fullname);
+    let fname = (data.cust_first_name);
+    let lname = (data.cust_last_name);
+    let email = (data.cust_email);
+
+    let queryUpdateCustomer = `UPDATE Customers SET cust_first_name = ?, cust_last_name  = ?, cust_email = ? WHERE Customers.cust_ID = ?`;
+          // Run the 1st query
+          db.pool.query(queryUpdateCustomer, [customer, fname, lname, email], function(error, rows, fields){
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+            }
+            // If there was no error, we run our second query and return that data so we can use it to update the people's
+            // table on the front-end
+            else
+            {
+                res.send(rows);
+            }
+        }
+    )
+});
+
+/*
     LISTENER
 */
 app.listen(PORT, function(){            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.

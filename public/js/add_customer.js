@@ -25,7 +25,7 @@ addCustomerForm.addEventListener("submit", function (e) {
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/addCustomer-AJAX", true);
+    xhttp.open("POST", "/addCustomer-AJAX/", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -72,11 +72,19 @@ addRowToTable = (data) => {
     let lastNameCell = document.createElement("TD");
     let emailCell = document.createElement("TD");
 
+    let deleteCell = document.createElement("TD");
+
     // Fill the cells with correct data
     idCell.innerText = newRow.cust_ID;
     firstNameCell.innerText = newRow.cust_first_name;
     lastNameCell.innerText = newRow.cust_last_name;
     emailCell.innerText = newRow.cust_email;
+
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function(){
+        deleteCustomer(newRow.cust_ID)
+    };
 
     // Add the cells to the row
     row.appendChild(idCell);
@@ -84,7 +92,13 @@ addRowToTable = (data) => {
     row.appendChild(lastNameCell);
     row.appendChild(emailCell);
 
-
+    row.appendChild(deleteCell);
     // Add the row to the table
     currentTable.appendChild(row);
+
+    let selectMenu = document.getElementById("mySelect");
+    let option = document.createElement("option");
+    option.text = newRow.cust_first_name + ' ' +  newRow.cust_last_name;
+    option.value = newRow.cust_ID;
+    selectMenu.add(option);
 }
