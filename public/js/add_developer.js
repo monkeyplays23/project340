@@ -1,31 +1,28 @@
-let addCustomerForm = document.getElementById('addCustomer-AJAX-form');
+let addDeveloperForm = document.getElementById('addDeveloper-AJAX-form');
 
 // Modify the objects we need
-addCustomerForm.addEventListener("submit", function (e) {
+addDeveloperForm.addEventListener("submit", function (e) {
 
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputFirstName = document.getElementById("input-fname");
-    let inputLastName = document.getElementById("input-lname");
-    let inputEmail = document.getElementById("input-email");
+    let inputName = document.getElementById("input-devname");
+    let inputLocation = document.getElementById("input-location");
 
     // Get the values from the form fields
-    let firstNameValue = inputFirstName.value;
-    let lastNameValue = inputLastName.value;
-    let emailValue = inputEmail.value;
+    let nameValue = inputName.value;
+    let locationValue = inputLocation.value;
 
     // Put our data we want to send in a javascript object
     let data = {
-        cust_first_name: firstNameValue,
-        cust_last_name: lastNameValue,
-        cust_email: emailValue
+        dev_name: nameValue,
+        dev_location: locationValue
     }
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/addCustomer-AJAX/", true);
+    xhttp.open("POST", "/addDeveloper-AJAX/", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -36,9 +33,8 @@ addCustomerForm.addEventListener("submit", function (e) {
             addRowToTable(xhttp.response);
 
             // Clear the input fields for another transaction
-            inputFirstName.value = '';
-            inputLastName.value = '';
-            inputEmail.value = '';
+            inputName.value = '';
+            inputLocation.value = '';
         }
         else if (xhttp.readyState == 3 && xhttp.status != 200) {
             console.log("There was an error with the input.")
@@ -52,11 +48,11 @@ addCustomerForm.addEventListener("submit", function (e) {
 
 
 // Creates a single row from an Object representing a single record from
-// Customers
+// Developers
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("CustomersTable");
+    let currentTable = document.getElementById("DevelopersTable");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -68,39 +64,36 @@ addRowToTable = (data) => {
     // Create a row and 4 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-    let firstNameCell = document.createElement("TD");
-    let lastNameCell = document.createElement("TD");
-    let emailCell = document.createElement("TD");
+    let nameCell = document.createElement("TD");
+    let locationCell = document.createElement("TD");
 
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.cust_ID;
-    firstNameCell.innerText = newRow.cust_first_name;
-    lastNameCell.innerText = newRow.cust_last_name;
-    emailCell.innerText = newRow.cust_email;
+    idCell.innerText = newRow.dev_ID;
+    nameCell.innerText = newRow.dev_name;
+    locationCell.innerText = newRow.dev_location;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deleteCustomer(newRow.cust_ID)
+        deleteDeveloper(newRow.dev_ID)
     };
 
     // Add the cells to the row
     row.appendChild(idCell);
-    row.appendChild(firstNameCell);
-    row.appendChild(lastNameCell);
-    row.appendChild(emailCell);
+    row.appendChild(nameCell);
+    row.appendChild(locationCell);
 
     row.appendChild(deleteCell);
     // Add the row to the table
-    row.setAttribute('data-value', newRow.cust_ID);
+    row.setAttribute('data-value', newRow.dev_ID);
 
     currentTable.appendChild(row);
 
-    let selectMenu = document.getElementById("selected_fullname");
+    let selectMenu = document.getElementById("selected_name");
     let option = document.createElement("option");
-    option.text = newRow.cust_first_name + ' ' +  newRow.cust_last_name;
-    option.value = newRow.cust_ID;
+    option.text = newRow.dev_name;
+    option.value = newRow.dev_ID;
     selectMenu.add(option);
 }

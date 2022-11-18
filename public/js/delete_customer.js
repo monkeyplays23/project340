@@ -15,12 +15,23 @@ function deleteCustomer(cust_ID) {
     });
   }
 
-  function deleteRow(cust_ID){
-      let table = document.getElementById("CustomersTable");
-      for (let i = 0, row; row = table.rows[i]; i++) {
-         if (table.rows[i].getAttribute("data-value") == cust_ID) {
-              table.deleteRow(i);
-              break;
-         }
+function deleteRow(cust_ID){
+  let table = document.getElementById("CustomersTable");
+    for (let i = 0, row; row = table.rows[i]; i++) {
+      if (table.rows[i].getAttribute("data-value") == cust_ID) {
+          table.deleteRow(i);
+          deleteDropDownMenu(cust_ID);
+          break;
+        }
+    }
+  }
+
+  function deleteDropDownMenu(cust_ID){
+    let selectMenu = document.getElementById("selected_fullname");
+    for (let i = 0; i < selectMenu.length; i++){
+      if (Number(selectMenu.options[i].value) === Number(cust_ID)){
+        selectMenu[i].remove();
+        break;
       }
+    }
   }

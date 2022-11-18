@@ -1,0 +1,78 @@
+<!-- developers.hbs -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<h1>Developers</h1>
+<p>This is the functional page for the Developers table and its interactions.</p>
+
+[ <a href="index">Home</a> | <a href="customers">Customers</a> |<a href="developers">Developer</a> | <a href="genres">Genres</a> | <a href="games">Games</a>| <a href="purchases">Purchases</a>]
+<table id="DevelopersTable" border="1" cellpadding="5">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>DELETE</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr data-value={{this.dev_ID}}>
+            <td>{{this.dev_ID}}</td>
+            <td>{{this.dev_name}}</td>
+            <td>{{this.dev_location}}</td>
+            <td><button onclick="deleteDeveloper({{this.dev_ID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_developer.js"></script>
+
+
+<h2>Search Using an HTML Form</h2>
+<p>Search by last name using the field below. Partial names are OK too!</p>
+<form id="search-developer-html" method='GET' action='/developers'>
+    <label for="input-devname">Search by Name: </label>
+    <input type="text" name="devname" id="input-devname-html-search">
+
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+
+
+{{!--Create form to add data--}}
+<h2>Add Developer via AJAX</h2>
+<p>Add new Developers by entering their information below and then click Submit</p>
+<form id="addDeveloper-AJAX-form">
+    <legend><strong>Add Developer</strong></legend>
+        <fieldset class="fields">
+        <label for="input-devname"> Name: </label> <input type="text" name="input-devname" id="input-devname" >
+        <label for="input-location"> Location: </label> <input type="text" name="input-location" id="input-location">
+    </fieldset>
+        <input type="submit">
+	</form>
+<script src="./js/add_developer.js"></script>
+
+{{!--Create form to update data--}}
+<h2>Updating A Developer's Data</h2>
+<p>To update a specific Developer's data select their name from the drop-down menu and then change their name or email wtih the text boxes.</p>
+<form id="updateDeveloper-AJAX-form">
+<legend><strong>Update Developer Info</strong></legend>
+    <fieldset class="fields">
+        <label for="input-devname"> Name: </label>
+        <select name="input-devname" id="selected_devname">
+            <option value="test">Select a developer</option>
+            {{#each data}}
+            <option value="{{this.dev_ID}}">{{this.dev_name}}</option>
+            {{/each}}
+        </select>
+    <fieldset class="fields">
+        <label for="input-devname-update"> EDIT Name: </label> <input type="text" name="input-devname-update" id="input-devname-update" >
+        <label for="input-location-update"> EDIT Location: </label> <input type="text" name="input-location-update" id="input-location-update" >
+    </fieldset>
+    </fieldset>
+    <input type="submit">
+</form>
+
+<script src="./js/update_developer.js"></script>

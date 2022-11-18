@@ -8,7 +8,7 @@ updateCustomerForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputFullName = document.getElementById("mySelect");
+    let inputFullName = document.getElementById("selected_fullname");
     let inputFirstName = document.getElementById("input-fname-update");
     let inputLastName = document.getElementById("input-lname-update");
     let inputEmail = document.getElementById("input-email-update");
@@ -19,22 +19,9 @@ updateCustomerForm.addEventListener("submit", function (e) {
     let lastNameValue = inputLastName.value;
     let emailValue = inputEmail.value;
 
-    if (!(firstNameValue))
-    {
-        return;
-    }
-    if (!(lastNameValue))
-    {
-        return;
-    }
-    if (!(emailValue))
-    {
-        return;
-    }
-
     // Put our data we want to send in a javascript object
     let data = {
-        fullname: fullNameValue,
+        cust_ID: fullNameValue,
         cust_first_name: firstNameValue,
         cust_last_name: lastNameValue,
         cust_email: emailValue
@@ -47,13 +34,13 @@ updateCustomerForm.addEventListener("submit", function (e) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 3 && xhttp.status == 200) {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
             updateRow(xhttp.response, fullNameValue);
 
         }
-        else if (xhttp.readyState == 3 && xhttp.status != 200) {
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -77,7 +64,7 @@ function updateRow(data, cust_ID){
             // Get the location of the row where we found the matching Customer ID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get td of homeworld value
+            // Get td of changed values
             let td_fname = updateRowIndex.getElementsByTagName("td")[1];
             let td_lname = updateRowIndex.getElementsByTagName("td")[2];
             let td_email = updateRowIndex.getElementsByTagName("td")[3];

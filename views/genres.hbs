@@ -1,0 +1,75 @@
+<!-- genres.hbs -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<h1>Genres</h1>
+<p>This is the functional page for the Genres table and its interactions.</p>
+
+[ <a href="index">Home</a> | <a href="customers">Customers</a> |<a href="developers">Developer</a> | <a href="genres">Genres</a> | <a href="games">Games</a>| <a href="purchases">Purchases</a>]
+<table id="GenresTable" border="1" cellpadding="5">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>DELETE</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr data-value={{this.genre_ID}}>
+            <td>{{this.genre_ID}}</td>
+            <td>{{this.genre_title}}</td>
+            <td><button onclick="deleteGenre({{this.genre_ID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_genre.js"></script>
+
+
+<h2>Search Using an HTML Form</h2>
+<p>Search by title using the field below. Partial titles are OK too!</p>
+<form id="search-genre-html" method='GET' action='/genres'>
+    <label for="input-title">Search by Title: </label>
+    <input type="text" name="title" id="input-title-html-search">
+
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+
+
+{{!--Create form to add data--}}
+<h2>Add Genre via AJAX</h2>
+<p>Add new Genres by entering their information below and then click Submit</p>
+<form id="addGenre-AJAX-form">
+    <legend><strong>Add Genre</strong></legend>
+        <fieldset class="fields">
+        <label for="input-title"> Title: </label> <input type="text" name="input-title" id="input-title" >
+    </fieldset>
+        <input type="submit">
+	</form>
+<script src="./js/add_genre.js"></script>
+
+{{!--Create form to update data--}}
+<h2>Updating A Genre's Data</h2>
+<p>To update a specific Genre's data select their name from the drop-down menu and then change their name or email wtih the text boxes.</p>
+<form id="updateGenre-AJAX-form">
+<legend><strong>Update Genre Info</strong></legend>
+    <fieldset class="fields">
+        <label for="input-title">Title: </label>
+        <select name="input-title" id="selected_title">
+            <option value="test">Select a Genre</option>
+            {{#each data}}
+            <option value="{{this.genre_ID}}">{{this.genre_title}}</option>
+            {{/each}}
+        </select>
+    <fieldset class="fields">
+        <label for="input-title-update"> EDIT Title: </label> <input type="text" name="input-title-update" id="input-title-update" >
+    </fieldset>
+    </fieldset>
+    <input type="submit">
+</form>
+
+<script src="./js/update_genre.js"></script>
