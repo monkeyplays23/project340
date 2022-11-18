@@ -75,6 +75,7 @@ app.post('/addCustomer-AJAX/', function (req, res) {
                 // If all went well, send the results of the query back.
                 else {
                     res.send(rows);
+                    res.render('index', { data: rows });   
                 }
             })
         }
@@ -106,7 +107,7 @@ app.put('/putCustomer-AJAX/', function (req, res, next) {
     let email = (data.cust_email);
 
     let queryUpdateCustomer = `UPDATE Customers SET cust_first_name = ?, cust_last_name  = ?, cust_email = ? WHERE Customers.cust_ID = ?`;
-    let selectCustomer = 'SELECT * FROM Customers where id = ?';
+    let selectCustomer = 'SELECT * FROM Customers where Customers.cust_ID = ?';
     // Run the 1st query
     db.pool.query(queryUpdateCustomer, [fname, lname, email, customer], function (error, rows, fields) {
         if (error) {
