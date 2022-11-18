@@ -91,8 +91,8 @@ addRowToTable = (data) => {
     row.appendChild(firstNameCell);
     row.appendChild(lastNameCell);
     row.appendChild(emailCell);
-
     row.appendChild(deleteCell);
+    
     // Add the row to the table
     currentTable.appendChild(row);
 

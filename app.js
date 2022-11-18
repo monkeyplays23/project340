@@ -3,7 +3,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-PORT = 5579;
+PORT = 7999;
 
 // Database
 var db = require('./database/db-connector');
@@ -135,5 +135,5 @@ app.put('/putCustomer-AJAX/', function(req,res,next){
     LISTENER
 */
 app.listen(PORT, function(){            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
-    console.log('Express started on http//flip3.engr.oregonstate.edu:' + PORT + '; press Ctrl-C to terminate.')
+    console.log('Express started on http//flip2.engr.oregonstate.edu:' + PORT + '; press Ctrl-C to terminate.')
 });
