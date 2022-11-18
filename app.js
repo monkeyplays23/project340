@@ -119,6 +119,7 @@ app.put('/putCustomer-AJAX/', function (req, res, next) {
         // If there was no error, we run our second query and return that data so we can use it to update the people's
         // table on the front-end
         else {
+            //Samuel: runs second query (this finds the row to update)
             db.pool.query(selectCustomer, [customer], function (error, rows, fields) {
 
                 if (error) {
