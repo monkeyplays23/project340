@@ -1,0 +1,56 @@
+<!-- purchases .hbs -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<h1>Purchases</h1>
+<p>This is the semi functional page for the Purchases table and its interactions.</p>
+
+[ <a href="index">Home</a> | <a href="customers">Customers</a> |<a href="developers">Developer</a> | <a href="genres">Genres</a> | <a href="games">Games</a>| <a href="purchases">Purchases</a>]
+<style>
+  tr:hover {
+    background-color: rgb(128, 203, 233);
+  }
+  tr.action {
+  visibility: collapse;
+  }
+  tr:hover + tr.action {
+  visibility: visible;
+  }
+</style>
+<table id="PurchasesTable" border="1" cellpadding="5">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>DELETE</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr data-value={{this.purch_ID}}>
+            <td>{{this.purch_ID}}</td>
+            <td>{{this.purch_date}}</td>
+            <td>{{this.Customer}}</td>
+            <td><button onclick="deletePurchase({{this.purch_ID}})">Delete</button></td>
+        </tr>
+        <tr class="action">
+            <td colspan="2"></td>
+            <td align="right" colspan="1">Customer ID: {{this.cust_ID}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_purchase.js"></script>
+
+<!--
+<h2>Search Using an HTML Form</h2>
+<p>Search by customer last name using the field below. Partial last names are OK too!</p>
+<form id="search-purchase-html" method='GET' action='/purchases'>
+    <label for="input-lname">Search by Cusotmer Last Name: </label>
+    <input type="text" name="lname" id="input-lname-html-search">
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+-->

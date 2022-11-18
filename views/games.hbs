@@ -1,0 +1,120 @@
+<!-- cusotmers.hbs -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<h1>Games</h1>
+<p>This is the semi functional page for the Games table and its interactions.</p>
+
+[ <a href="index">Home</a> | <a href="customers">Customers</a> |<a href="developers">Developer</a> | <a href="genres">Genres</a> | <a href="games">Games</a>| <a href="purchases">Purchases</a>]
+<style>
+  tr:hover {
+    background-color: rgb(128, 203, 233);
+  }
+  tr.action {
+  visibility: collapse;
+  }
+  tr:hover + tr.action {
+  visibility: visible;
+  }
+</style>
+<table id="GamesTable" border="1" cellpadding="5">
+    <thead>
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th>DELETE</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each data}}
+        <tr data-value={{this.game_ID}}>
+            <td>{{this.game_ID}}</td>
+            <td>{{this.game_title}}</td>
+            <td>{{this.game_price}}</td>
+            <td>{{this.dev_name}}</td>
+            <td><button onclick="deleteGame({{this.game_ID}})">Delete</button></td>
+        </tr>
+        <tr class="action">
+            <td colspan="3"></td>
+            <td align="right" colspan="1">DEV ID: {{this.dev_ID}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_game.js"></script>
+
+<h2>Search Using an HTML Form</h2>
+<p>Search by game title using the field below. Partial titles are OK too!</p>
+<form id="search-game-html" method='GET' action='/games'>
+    <label for="input-title">Search by Game Title: </label>
+    <input type="text" name="title" id="input-title-html-search">
+
+    <input type="submit">
+    <a href='/'><button>Reset</button></a>
+</form>
+
+
+{{!--Create form to add data--}}
+<h2>Add Game via AJAX</h2>
+<p>Add new Games by entering their information below and then click Submit</p>
+<form id="addGame-AJAX-form">
+    <legend><strong>Add Game</strong></legend>
+        <fieldset class="fields">
+        <label for="input-title"> Game Title: </label> <input type="text" name="input-title" id="input-title" >
+        <label for="input-price"> Price: </label> <input type="text" name="input-price" id="input-price">
+        <label for="input-devname"> Developer: </label>
+            <select name="input-devname" id="selected_devname">
+                    <option value="test">Select a developer</option>
+                    {{#each data}}
+                    <option value="{{this.dev_ID}}">{{this.dev_name}}</option>
+                    {{/each}}
+            </select>
+        <fieldset class="fields">
+        <legend>Choose the Genre(s):</legend>
+            <div>
+              <input type="checkbox" id="sports" name="sports">
+              <label for="sports">Sports</label>
+            </div>
+        </fieldset>
+        </fieldset>
+        <input type="submit">
+	</form>
+<script src="./js/add_Game.js"></script>
+
+{{!--Create form to update data--}}
+<h2>Updating A Game's Data</h2>
+<p>To update a specific Game's data select their name from the drop-down menu and then change their name or email wtih the text boxes.</p>
+<form id="updateGame-AJAX-form">
+<legend><strong>Update Game Info</strong></legend>
+    <fieldset class="fields">
+        <label for="input-title">Title: </label>
+        <select name="input-fullname" id="selected_fullname">
+            <option value="test">Select a Game</option>
+            {{#each data}}
+            <option value="{{this.game_ID}}">{{this.game_title}}</option>
+            {{/each}}
+        </select>
+    <fieldset class="fields">
+        <label for="input-title-update"> EDIT Title: </label> <input type="text" name="input-fname-update" id="input-fname-update" >
+        <label for="input-price-update"> EDIT Price: </label> <input type="text" name="input-lname-update" id="input-lname-update" >
+        <label for="input-devname-update"> EDIT Developer: </label>
+            <select name="input-devname-update" id="selected_devname">
+                        <option value="test">Select a developer</option>
+                        {{#each data}}
+                        <option value="{{this.dev_ID}}">{{this.dev_name}}</option>
+                        {{/each}}
+            </select>
+        <label for="input-genre-update"> EDIT Genres: </label>
+        <legend>Choose the Genre(s):</legend>
+            <div>
+              <input type="checkbox" id="sports" name="sports">
+              <label for="sports">Sports</label>
+            </div>
+    </fieldset>
+    </fieldset>
+    <input type="submit">
+</form>
+
+<script src="./js/update_game.js"></script>
