@@ -101,7 +101,7 @@
         <label for="input-devname-update"> EDIT Developer: </label>
             <select name="input-devname-update" id="selected_devname">
                         <option value="test">Select a developer</option>
-                        {{#each data}}
+                        {{#each developer}}
                         <option value="{{this.dev_ID}}">{{this.dev_name}}</option>
                         {{/each}}
             </select>

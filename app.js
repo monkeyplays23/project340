@@ -385,7 +385,9 @@ app.get('/games', function(req, res)
         }
     let queryDevelopers = 'SELECT * FROM Developers'
     db.pool.query(queryGames, function(error, rows, fields){
-        res.render('games', {data: rows});                 // Render the index.hbs file, and also send the renderer
+        db.pool.query(queryDevelopers, function(error, devs, fields){
+        res.render('games', {data: rows, developer: devs});                 // Render the index.hbs file, and also send the renderer
+        })
     })
 
 });
