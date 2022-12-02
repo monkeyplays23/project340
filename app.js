@@ -3,7 +3,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-PORT = 5579;
+PORT = 7999;
 
 // Database
 var db = require('./database/db-connector');
@@ -16,7 +16,6 @@ app.set('view engine', '.hbs');
 
 // Static Files
 app.use(express.static('public'));              // Tell express to use the handlebars engine whenever it encounters a *.hbs file.
-
 
 // app.js
 
