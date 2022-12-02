@@ -383,7 +383,7 @@ app.get('/games', function(req, res)
         {
             queryGames  = `SELECT Games.game_ID, Games.game_title, Games.game_price, Developers.dev_name FROM Games INNER JOIN Developers ON Games.dev_ID = Developers.dev_ID WHERE game_title LIKE "${req.query.title}%"`
         }
-
+    let queryDevelopers = 'SELECT * FROM Developers'
     db.pool.query(queryGames, function(error, rows, fields){
         res.render('games', {data: rows});                 // Render the index.hbs file, and also send the renderer
     })
