@@ -82,7 +82,7 @@ CREATE TABLE Games_Purchases_Details (
     game_price             DECIMAL(19, 2) NOT NULL,
     PRIMARY KEY (game_purch_details_ID),
     FOREIGN KEY (purch_ID) REFERENCES Purchases(purch_ID)
-    ON UPDATE CASCADEgit
+    ON UPDATE CASCADE
     ON DELETE CASCADE,
     FOREIGN KEY (game_ID)  REFERENCES Games(game_ID)
     ON UPDATE CASCADE
