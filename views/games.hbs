@@ -1,19 +1,8 @@
-<!-- cusotmers.hbs -->
+<!-- customer.hbs -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <h1>Games</h1>
 <p>This is the semi functional page for the Games table and its interactions.</p>
 
-<style>
-  tr:hover {
-    background-color: rgb(128, 203, 233);
-  }
-  tr.action {
-  visibility: collapse;
-  }
-  tr:hover + tr.action {
-  visibility: visible;
-  }
-</style>
 <table id="GamesTable" border="1" cellpadding="5">
     <thead>
         <tr>
@@ -35,10 +24,7 @@
             <td>{{this.dev_name}}</td>
             <td><button onclick="deleteGame({{this.game_ID}})">Delete</button></td>
         </tr>
-        <tr class="action">
-            <td colspan="3"></td>
-            <td align="right" colspan="1">DEV ID: {{this.dev_ID}}</td>
-        </tr>
+
         {{/each}}
     </tbody>
 </table>
@@ -49,7 +35,6 @@
 <form id="search-game-html" method='GET' action='/games'>
     <label for="input-title">Search by Game Title: </label>
     <input type="text" name="title" id="input-title-html-search">
-
     <input type="submit">
     <a href='/'><button>Reset</button></a>
 </form>
