@@ -3,7 +3,7 @@ var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-PORT = 7999;
+PORT = 5579;
 
 // Database
 var db = require('./database/db-connector');
@@ -11,6 +11,7 @@ var db = require('./database/db-connector');
 // Handlebars
 const { engine } = require('express-handlebars');
 var exphbs = require('express-handlebars');     // Import express-handlebars
+const { NULL } = require('mysql/lib/protocol/constants/types');
 app.engine('.hbs', engine({extname: ".hbs"}));  // Create an instance of the handlebars engine to process templates
 app.set('view engine', '.hbs');
 
@@ -374,21 +375,46 @@ app.put('/putGenre-AJAX/', function(req,res,next){
 app.get('/games', function(req, res)
 {
     let queryGames
+    let queryGamesGenres
 
-    if (req.query.title === undefined)
+    if (req.query.title === undefined & req.query.ggtitle === undefined)
     {
+
         queryGames  = "SELECT Games.game_ID, Games.game_title, Games.game_price, Developers.dev_name FROM Games INNER JOIN Developers ON Games.dev_ID = Developers.dev_ID ";
+        queryGamesGenres = "SELECT Games_Genres_Details.game_genre_details_ID, Genres.genre_title, Games.game_title FROM Games_Genres_Details INNER JOIN Games ON Games_Genres_Details.game_ID = Games.game_ID INNER JOIN Genres ON Games_Genres_Details.genre_ID = Genres.genre_ID ORDER BY Games_Genres_Details.game_genre_details_ID";
     }
+    else if (req.query.title !== undefined)
+        {
+            queryGames  = `SELECT Games.game_ID, Games.game_title, Games.game_price, Developers.dev_name FROM Games INNER JOIN Developers ON Games.dev_ID = Developers.dev_ID WHERE game_title LIKE "${req.query.title}%"`
+            queryGamesGenres = "SELECT Games_Genres_Details.game_genre_details_ID, Genres.genre_title, Games.game_title FROM Games_Genres_Details INNER JOIN Games ON Games_Genres_Details.game_ID = Games.game_ID INNER JOIN Genres ON Games_Genres_Details.genre_ID = Genres.genre_ID ORDER BY Games_Genres_Details.game_genre_details_ID";
+        }
+    else if (req.query.ggtitle !== undefined)
+        {
+            queryGames  = "SELECT Games.game_ID, Games.game_title, Games.game_price, Developers.dev_name FROM Games INNER JOIN Developers ON Games.dev_ID = Developers.dev_ID ";
+            queryGamesGenres = `SELECT Games_Genres_Details.game_genre_details_ID, Genres.genre_title, Games.game_title FROM Games_Genres_Details INNER JOIN Games ON Games_Genres_Details.game_ID = Games.game_ID INNER JOIN Genres ON Games_Genres_Details.genre_ID = Genres.genre_ID WHERE game_title LIKE "${req.query.ggtitle}%"`;
+        }
     else
         {
             queryGames  = `SELECT Games.game_ID, Games.game_title, Games.game_price, Developers.dev_name FROM Games INNER JOIN Developers ON Games.dev_ID = Developers.dev_ID WHERE game_title LIKE "${req.query.title}%"`
+            queryGamesGenres = `SELECT Games_Genres_Details.game_genre_details_ID, Genres.genre_title, Games.game_title FROM Games_Genres_Details INNER JOIN Games ON Games_Genres_Details.game_ID = Games.game_ID INNER JOIN Genres ON Games_Genres_Details.genre_ID = Genres.genre_ID WHERE game_title LIKE "${req.query.ggtitle}%"`;
         }
     let queryDevelopers = 'SELECT * FROM Developers'
+    let queryGamesAll = 'SELECT * FROM Games'
+    let queryGenres = 'SELECT * FROM Genres '
     db.pool.query(queryGames, function(error, rows, fields)
     {
         db.pool.query(queryDevelopers, function(error, devs, fields)
         {
-        res.render('games', {data: rows, developer: devs});                 // Render the index.hbs file, and also send the renderer
+            db.pool.query(queryGamesGenres, function(error, info, fields)
+            {
+                db.pool.query(queryGamesAll, function(error, allgame, fields)
+                {
+                    db.pool.query(queryGenres, function(error, types, fields)
+                    {
+                        res.render('games', {data: rows, developer: devs, gamesgenres: info, allgames: allgame, generes: types});                 // Render the index.hbs file, and also send the renderer
+                    })
+                })
+            })
         })
     })
 });
@@ -415,22 +441,166 @@ app.delete('/deleteGame-AJAX/', function(req,res,next){
 // PURCHASES
 app.get('/purchases', function(req, res)
 {
-    let query1        // Define our query
-
-    if (req.query.title === undefined)
+    let query1    // Define our query
+    let queryDetails
+    if (req.query.lname === undefined & req.query.pID === undefined)
     {
-        query1  = "SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID ";
+        query1  = "SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer, Purchases.cust_ID FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID ORDER BY Purchases.purch_ID";
+        queryDetails = "SELECT Games_Purchases_Details.game_purch_details_ID, Games_Purchases_Details.purch_ID, Games.game_title, Games_Purchases_Details.game_price, Games_Purchases_Details.game_ID FROM Games_Purchases_Details INNER JOIN Games ON Games_Purchases_Details.game_ID = Games.game_ID LEFT JOIN Purchases ON Games_Purchases_Details.purch_ID = Purchases.purch_ID ORDER BY Games_Purchases_Details.game_purch_details_ID";
     }
+    else if (req.query.lname !== undefined)
+        {
+            query1  = `SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer, Purchases.cust_ID FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID WHERE Customers.cust_last_name LIKE "${req.query.lname}%"`;
+            queryDetails = "SELECT Games_Purchases_Details.game_purch_details_ID, Games_Purchases_Details.purch_ID, Games.game_title, Games_Purchases_Details.game_price, Games_Purchases_Details.game_ID FROM Games_Purchases_Details INNER JOIN Games ON Games_Purchases_Details.game_ID = Games.game_ID LEFT JOIN Purchases ON Games_Purchases_Details.purch_ID = Purchases.purch_ID ORDER BY Games_Purchases_Details.game_purch_details_ID";
+        }
+    else if (req.query.pID !== undefined)
+        {
+            query1  = "SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer, Purchases.cust_ID FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID ORDER BY Purchases.purch_ID";
+            queryDetails = `SELECT Games_Purchases_Details.game_purch_details_ID, Games_Purchases_Details.purch_ID, Games.game_title, Games_Purchases_Details.game_price, Games_Purchases_Details.game_ID FROM Games_Purchases_Details INNER JOIN Games ON Games_Purchases_Details.game_ID = Games.game_ID LEFT JOIN Purchases ON Games_Purchases_Details.purch_ID = Purchases.purch_ID WHERE Games_Purchases_Details.purch_ID LIKE "%${req.query.pID}%" ORDER BY Games_Purchases_Details.game_purch_details_ID `;
+        }
     else
         {
-            query1  = `SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID WHERE cust_last_name LIKE "${req.query.lname}%"`
+            query1  = `SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer, Purchases.cust_ID FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID WHERE Customers.cust_last_name LIKE "${req.query.lname}%"`;
+            queryDetails = `SELECT Games_Purchases_Details.game_purch_details_ID, Games_Purchases_Details.purch_ID, Games.game_title, Games_Purchases_Details.game_price, Games_Purchases_Details.game_ID FROM Games_Purchases_Details INNER JOIN Games ON Games_Purchases_Details.game_ID = Games.game_ID LEFT JOIN Purchases ON Games_Purchases_Details.purch_ID = Purchases.purch_ID WHERE Games_Purchases_Details.purch_ID LIKE "%${req.query.pID}%" ORDER BY Games_Purchases_Details.game_purch_details_ID `;
         }
-
-    db.pool.query(query1, function(error, rows, fields){
-        res.render('purchases', {data: rows});                 // Render the index.hbs file, and also send the renderer
-    })      // an object where 'data' is equal to the 'rows' we
-
+    let queryCustomers = 'SELECT * FROM Customers'
+    let queryGames = 'SELECT * FROM Games'
+    let queryPurchases = 'SELECT * FROM Purchases'
+    db.pool.query(query1, function(error, rows, fields)
+    {
+        db.pool.query(queryCustomers, function(error, cust, fields)
+        {
+            db.pool.query(queryDetails, function(error, info, fields)
+            {
+                db.pool.query(queryGames, function(error, title, fields)
+                {
+                    db.pool.query(queryPurchases, function(error, purch, fields)
+                    {
+                        res.render('purchases', {data: rows, customers: cust, details: info, games: title, purchases: purch});                 // Render the index.hbs file, and also send the renderer
+                    })
+                })
+            })
+        })
+    })
 });
+
+app.post('/addPurchase-AJAX/', function(req, res)
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+
+        // Create the query and run it on the database
+        query1 = `INSERT INTO Purchases (purch_date, cust_ID) VALUES ('${data.purch_date}', '${data.cust_ID}')`;
+        db.pool.query(query1, function(error, rows, fields){
+
+            // Check to see if there was an error
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT on Purchases
+                query2 = "SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer, Purchases.cust_ID FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID ORDER BY Purchases.purch_ID";
+                db.pool.query(query2, function(error, rows, fields){
+
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+
+app.post('/addPurchaseDetails-AJAX/', function(req, res)
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+
+        // Create the query and run it on the database
+        query1 = `INSERT INTO Games_Purchases_Details (purch_ID, game_ID, game_price) VALUES ((SELECT MAX(Purchases.purch_ID) FROM Purchases),'${data.game_ID}', (SELECT Games.game_price FROM Games WHERE Games.game_ID = '${data.game_ID}'))`;
+        db.pool.query(query1, function(error, rows, fields){
+
+            // Check to see if there was an error
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT on Purchases
+                query2 = "SELECT Games_Purchases_Details.game_purch_details_ID, Games_Purchases_Details.purch_ID, Games.game_title, Games_Purchases_Details.game_price, Games_Purchases_Details.game_ID FROM Games_Purchases_Details INNER JOIN Games ON Games_Purchases_Details.game_ID = Games.game_ID INNER JOIN Purchases ON Games_Purchases_Details.purch_ID = Purchases.purch_ID ORDER BY Games_Purchases_Details.game_purch_details_ID";
+                db.pool.query(query2, function(error, rows, fields){
+
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+
+app.post('/addPurchaseDetailsMany-AJAX/', function(req, res)
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+
+        // Create the query and run it on the database
+        query1 = `INSERT INTO Games_Purchases_Details (purch_ID, game_ID, game_price) VALUES ((SELECT MAX(Purchases.purch_ID) FROM Purchases),'${data.game_ID}', (SELECT Games.game_price FROM Games WHERE Games.game_ID = '${data.game_ID}'))`;
+        db.pool.query(query1, function(error, rows, fields){
+
+            // Check to see if there was an error
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT on Purchases
+                query2 = "SELECT Games_Purchases_Details.game_purch_details_ID, Games_Purchases_Details.purch_ID, Games.game_title, Games_Purchases_Details.game_price, Games_Purchases_Details.game_ID FROM Games_Purchases_Details INNER JOIN Games ON Games_Purchases_Details.game_ID = Games.game_ID INNER JOIN Purchases ON Games_Purchases_Details.purch_ID = Purchases.purch_ID ORDER BY Games_Purchases_Details.game_purch_details_ID";
+                db.pool.query(query2, function(error, rows, fields){
+
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+
 
 app.delete('/deletePurchase-AJAX/', function(req,res,next){
     let data = req.body;
@@ -438,6 +608,21 @@ app.delete('/deletePurchase-AJAX/', function(req,res,next){
     let deletePurchase= `DELETE FROM Purchases WHERE purch_ID = ?`
     // Run the query
     db.pool.query(deletePurchase, [purch_ID], function(error, rows, fields) {
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+    })
+});
+
+app.delete('/deletePurchaseDetails-AJAX/', function(req,res,next){
+    let data = req.body;
+    let game_purch_details_ID = parseInt(data.game_purch_details_ID);
+    let deletePurchaseDetails = `DELETE FROM Games_Purchases_Details WHERE game_purch_details_ID = ?`
+    // Run the query
+    db.pool.query(deletePurchaseDetails, [game_purch_details_ID], function(error, rows, fields) {
 
         if (error) {
             console.log(error);
@@ -447,6 +632,81 @@ app.delete('/deletePurchase-AJAX/', function(req,res,next){
         }
         })
 });
+
+
+app.put('/putPurchase-AJAX/', function(req,res,next){
+    let data = req.body;
+
+    let purchID = (data.purch_ID);
+    let date = (data.purch_date);
+    let custID = (data.cust_ID);
+
+    let queryUpdatePurchase = `UPDATE Purchases SET purch_date = ?, cust_ID = ? WHERE Purchases.purch_ID = ?`;
+    let queryShowPurchase = "SELECT Purchases.purch_ID, DATE_FORMAT(Purchases.purch_date,'%d-%m-%Y') AS purch_date, CONCAT(Customers.cust_first_name, ' ', Customers.cust_last_name) AS Customer, Purchases.cust_ID FROM Purchases INNER JOIN Customers ON Purchases.cust_ID = Customers.cust_ID ORDER BY Purchases.purch_ID";
+    // Run the 1st query
+        db.pool.query(queryUpdatePurchase, [date, custID, purchID], function(error, rows, fields){
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+                }
+            else
+            {
+                db.pool.query(queryShowPurchase, [purchID], function(error, rows, fields){
+                    if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+            // If there was no error, we run our second query and return that data so we can use it to update the people's
+            // table on the front-end
+                    else
+                    {
+                        res.send(rows);
+                    }
+            })
+        }
+    })});
+
+app.put('/putPurchaseDetails-AJAX/', function(req,res,next){
+    let data = req.body;
+
+    let purchdetailID = (data.game_purch_details_ID);
+    let purchID = (data.purch_ID);
+    let gamecustID = (data.game_ID);
+
+    let queryUpdatePurchaseDetails = `UPDATE Games_Purchases_Details SET Games_Purchases_Details.purch_ID = CASE WHEN ? = '' THEN NULL ELSE ? END, Games_Purchases_Details.game_ID = ?, Games_Purchases_Details.game_price = (SELECT Games.game_price FROM Games WHERE Games.game_ID = ?) WHERE Games_Purchases_Details.game_purch_details_ID = ?;`;
+    let queryShowPurchaseDetails = "SELECT Games_Purchases_Details.game_purch_details_ID, Games_Purchases_Details.purch_ID, Games.game_title, Games_Purchases_Details.game_price, Games_Purchases_Details.game_ID FROM Games_Purchases_Details INNER JOIN Games ON Games_Purchases_Details.game_ID = Games.game_ID LEFT JOIN Purchases ON Games_Purchases_Details.purch_ID = Purchases.purch_ID ORDER BY Games_Purchases_Details.game_purch_details_ID";
+    // Run the 1st query
+        db.pool.query(queryUpdatePurchaseDetails, [purchID, purchID, gamecustID, gamecustID, purchdetailID], function(error, rows, fields){
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error);
+                res.sendStatus(400);
+                }
+            else
+            {
+                db.pool.query(queryShowPurchaseDetails, [purchdetailID], function(error, rows, fields){
+                    if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+            // If there was no error, we run our second query and return that data so we can use it to update the people's
+            // table on the front-end
+                    else
+                    {
+                        res.send(rows);
+                    }
+            })
+        }
+    })});
+
+
 
 
 /*

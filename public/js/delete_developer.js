@@ -13,7 +13,7 @@ function deleteDeveloper(dev_ID) {
         deleteRow(dev_ID);
       }
     });
-  }
+}
 
 function deleteRow(dev_ID){
   let table = document.getElementById("DevelopersTable");
@@ -24,9 +24,9 @@ function deleteRow(dev_ID){
           break;
         }
     }
-  }
+}
 
-  function deleteDropDownMenu(dev_ID){
+function deleteDropDownMenu(dev_ID){
     let selectMenu = document.getElementById("selected_devname");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(dev_ID)){
@@ -34,4 +34,4 @@ function deleteRow(dev_ID){
         break;
       }
     }
-  }
+}

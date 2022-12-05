@@ -5,23 +5,21 @@
 
 <style>
   tr:hover {
-    background-color: rgb(128, 203, 233);
   }
   tr.action {
   visibility: collapse;
   }
   tr:hover + tr.action {
   visibility: visible;
+  background-color: rgb(42, 57, 112);
   }
 </style>
 <table id="PurchasesTable" border="1" cellpadding="5">
     <thead>
         <tr>
-            {{#each data.[0]}}
-            <th>
-                {{@key}}
-            </th>
-            {{/each}}
+            <th>purch_ID</th>
+            <th>purch_date</th>
+            <th>Customer</th>
             <th>DELETE</th>
         </tr>
     </thead>
@@ -37,19 +35,182 @@
         <tr class="action">
             <td colspan="2"></td>
             <td align="right" colspan="1">Customer ID: {{this.cust_ID}}</td>
+            <td colspan="1"></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
 <script src="./js/delete_purchase.js"></script>
 
-<!--
+<div>
 <h2>Search Using an HTML Form</h2>
-<p>Search by customer last name using the field below. Partial last names are OK too!</p>
+<p>Search by Customer last name using the field below. Partial last names are OK too!</p>
 <form id="search-purchase-html" method='GET' action='/purchases'>
-    <label for="input-lname">Search by Cusotmer Last Name: </label>
+    <label for="input-lname">Search by Customer Last Name: </label>
     <input type="text" name="lname" id="input-lname-html-search">
     <input type="submit">
-    <a href='/'><button>Reset</button></a>
 </form>
--->
+    <a href='/purchases'><button>Reset</button></a>
+</div>
+
+<h1>Purchase Details</h1>
+<table id="PurchaseDetailsTable" border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>game_purch_details_ID</th>
+            <th>purch_ID</th>
+            <th>game_title</th>
+            <th>game_price</th>
+            <th>DELETE</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{#each details}}
+        <tr data-value={{this.game_purch_details_ID}}>
+            <td>{{this.game_purch_details_ID}}</td>
+            <td>{{this.purch_ID}}</td>
+            <td>{{this.game_title}}</td>
+            <td>{{this.game_price}}</td>
+            <td><button onclick="deletePurchaseDetails({{this.game_purch_details_ID}})">Delete</button></td>
+        </tr>
+        <tr class="action">
+            <td colspan="2"></td>
+            <td align="right" colspan="1">Game ID: {{this.game_ID}}</td>
+            <td colspan="2"></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_purchase_details.js"></script>
+
+<div>
+<h2>Search Using an HTML Form</h2>
+<p>Search by Purchase ID using the field below.</p>
+<form id="search-purchase-details-html" method='GET' action='/purchases'>
+    <label for="input-pID">Search by Purchase ID: </label>
+    <input type="text" name="pID" id="input-pID-html-search">
+    <input type="submit">
+</form>
+    <a href='/purchases'><button>Reset</button></a>
+</div>
+
+{{!--Create form to add data--}}
+<h2>Add Purchase via AJAX</h2>
+<p>Add new Purchases by entering the basic information below and then click Submit</p>
+<form id="addPurchase-AJAX-form">
+    <legend><strong>Add Purchase</strong></legend>
+        <fieldset class="fields">
+        <label for="input-date"> Date: </label> <input type="date" name="input-date" id="input-date" >
+        <label for="input-custname"> Customer: </label>
+            <select name="input-custname" id="selected_custname">
+                    <option value="test">Select a customer</option>
+                    {{#each customers}}
+                    <option value="{{this.cust_ID}}">{{this.cust_first_name}} {{this.cust_last_name}}</option>
+                    {{/each}}
+            </select>
+        <label for="input-game"> Game: </label>
+            <select name="input-game" id="selected_game">
+                    <option value="test">Select a game</option>
+                    {{#each games}}
+                    <option value="{{this.game_ID}}">{{this.game_title}} </option>
+                    {{/each}}
+            </select>
+    </fieldset>
+        <input type="submit">
+	</form>
+<script src="./js/add_purchase.js"></script>
+
+{{!--Create form to add data--}}
+<h2>Add Purchase Details via AJAX</h2>
+<p>Add more games to a purchase by selecting the games name and then click Submit. *You can only add one game at a time unfortunately.*</p>
+<form id="addPurchaseDetails-AJAX-form">
+    <legend><strong>Add Purchase Details</strong></legend>
+        <fieldset class="fields">
+        <label for="input-pID_for_add">Purchase ID: </label>
+        <select name="input-pID_for_add" id="selected_pID_for_add">
+            <option value="test">Select a Purchase</option>
+            <option value="">Null</option>
+            {{#each data}}
+            <option value="{{this.purch_ID}}">{{this.purch_ID}}</option>
+            {{/each}}
+        </select>
+        <label for="input-game"> Game: </label>
+            <select name="input-game" id="selected_game">
+                    <option value="test">Select a game</option>
+                    {{#each games}}
+                    <option value="{{this.game_ID}}">{{this.game_title}} </option>
+                    {{/each}}
+            </select>
+    </fieldset>
+        <input type="submit">
+	</form>
+<script src="./js/add_purchase_details.js"></script>
+
+
+
+{{!--Create form to update data--}}
+<h2>Updating A Purchase's Data</h2>
+<p>To update a specific Purchase's data select its ID from the drop-down menu or start typing an ID and then select it from the drop-down. Then enter a new date and/or customer to change to.</p>
+<form id="updatePurchase-AJAX-form">
+<legend><strong>Update Purchase Info</strong></legend>
+    <fieldset class="fields">
+        <label for="input-pID">Purchase ID: </label>
+        <select name="input-pID" id="selected_pID">
+            <option value="test">Select a Purchase</option>
+            {{#each data}}
+            <option value="{{this.purch_ID}}">{{this.purch_ID}}</option>
+            {{/each}}
+        </select>
+    <fieldset class="fields">
+        <label for="input-date-update"> Date: </label> <input type="date" name="input-date-update" id="input-date-update" >
+        <label for="input-custname-update"> Customer: </label>
+            <select name="input-custname-update" id="selected_custname_update">
+                    <option value="test">Select a customer</option>
+                    {{#each customers}}
+                    <option value="{{this.cust_ID}}">{{this.cust_first_name}} {{this.cust_last_name}}</option>
+                    {{/each}}
+            </select>
+    </fieldset>
+    </fieldset>
+    <input type="submit">
+</form>
+
+<script src="./js/update_purchase.js"></script>
+
+{{!--Create form to update data--}}
+<h2>Updating A Purchase Detail's Data</h2>
+<p>To update a specific Purchase Detail's data select its ID from the drop-down menu or start typing an ID and then select it from the drop-down. Then enter a new purchase ID and/or game to change to.</p>
+<form id="updatePurchaseDetails-AJAX-form">
+<legend><strong>Update Purchase Info</strong></legend>
+    <fieldset class="fields">
+        <label for="input-pdID">Purchase Detail ID: </label>
+        <select name="input-pdID" id="selected_pdID">
+            <option value="test">Select a Purchase Detail</option>
+            {{#each details}}
+            <option value="{{this.game_purch_details_ID}}">{{this.game_purch_details_ID}}</option>
+            {{/each}}
+        </select>
+    <fieldset class="fields">
+        <fieldset class="fields">
+        <label for="input-pID_for_pd">Purchase ID: </label>
+        <select name="input-pID_for_pd" id="selected_pID_for_pd">
+            <option value="test">Select a Purchase</option>
+            <option value="">Null</option>
+            {{#each data}}
+            <option value="{{this.purch_ID}}">{{this.purch_ID}}</option>
+            {{/each}}
+        </select>
+        <label for="input-game-update"> Game Title: </label>
+            <select name="input-game-update" id="selected_game_update">
+                    <option value="test">Select a game</option>
+                    {{#each games}}
+                    <option value="{{this.game_ID}}">{{this.game_title}}</option>
+                    {{/each}}
+            </select>
+    </fieldset>
+    </fieldset>
+    <input type="submit">
+</form>
+
+<script src="./js/update_purchase_details.js"></script>

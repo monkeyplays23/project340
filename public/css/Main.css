@@ -5,12 +5,11 @@
 
 body {
 color:rgb(180, 210, 248);
-} 
+}
 
 html {
   background-color: rgb(75, 3, 143);
   color:blueviolet;
-  
 }
 
 a:link {color:darkcyan}
@@ -38,8 +37,13 @@ button.button {
   }
 }
 
-
-td, th {
+th {
+  font-size: larger;
+  border: 1px solid rgb(0, 148, 121);
+  padding: .75rem;
+  text-align: center;
+}
+td {
   border: 1px solid rgb(0, 148, 121);
   padding: .75rem;
   text-align: center;
@@ -49,6 +53,9 @@ table {
   border-collapse: collapse;
 }
 
+tbody tr:nth-child(even) {
+  background-color: rgb(42, 57, 112);
+}
 tbody tr:nth-child(odd) {
   background: rgb(15, 35, 106);
 }

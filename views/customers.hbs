@@ -30,16 +30,17 @@
 <script src="./js/delete_customer.js"></script>
 
 
+<div>
 <h2>Search Using an HTML Form</h2>
 <p>Search by last name using the field below. Partial last names are OK too!</p>
-<form id="search-customer-html" method='GET' action='/'>
+<form id="search-customer-html" method='GET' action='/customers'>
     <label for="input-lname">Search by Last Name: </label>
+    <br></br>
     <input type="text" name="lname" id="input-lname-html-search">
-
     <input type="submit">
-    <a href='/'><button>Reset</button></a>
 </form>
-
+    <a href='/customers'><button>Reset</button></a>
+</div>
 
 {{!--Create form to add data--}}
 <h2>Add Customer via AJAX</h2>

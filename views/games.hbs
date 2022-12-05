@@ -30,16 +30,56 @@
 </table>
 <script src="./js/delete_game.js"></script>
 
+<div>
 <h2>Search Using an HTML Form</h2>
-<p>Search by game title using the field below. Partial titles are OK too!</p>
+<p>Search by game title for the games table using the field below. Partial titles are OK too!</p>
 <form id="search-game-html" method='GET' action='/games'>
     <label for="input-title">Search by Game Title: </label>
     <input type="text" name="title" id="input-title-html-search">
     <input type="submit">
-    <a href='/'><button>Reset</button></a>
 </form>
+    <a href='/games'><button>Reset</button></a>
+</div>
+
+<h1>Games Genres Details</h1>
+<table id="GamesGenresTable" border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>game_purch_details_ID</th>
+            <th>genre_title</th>
+            <th>game_title</th>
+            <th>DELETE</th>
+        </tr>
+    </thead>
+
+   <tbody>
+        {{#each gamesgenres}}
+        <tr data-value={{this.game_genre_details_ID}}>
+            <td>{{this.game_genre_details_ID}}</td>
+            <td>{{this.genre_title}}</td>
+            <td>{{this.game_title}}</td>
+            <td><button onclick="deletePurchaseDetails({{this.game_genre_details_ID}})">Delete</button></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="./js/delete_game_genre.js"></script>
 
 
+<div>
+<h2>Search Using an HTML Form</h2>
+<p>Search by game title for the details table using the field below. Partial titles are OK too!</p>
+<form id="search-gamegenre-html" method='GET' action='/games'>
+    <label for="input-title">Search by Game Title: </label>
+    <input type="text" name="ggtitle" id="input-ggtitle-html-search">
+    <input type="submit">
+</form>
+    <a href='/games'><button>Reset</button></a>
+</div>
+
+<br></br>
+<br></br>
+<p><b>***The forms do not function. The only functioning things on this page are the rendering of the tables and the search bars for them.***</b></p>
 {{!--Create form to add data--}}
 <h2>Add Game via AJAX</h2>
 <p>Add new Games by entering their information below and then click Submit</p>
@@ -65,7 +105,7 @@
         </fieldset>
         <input type="submit">
 	</form>
-<script src="./js/add_Game.js"></script>
+<script src="./js/add_game.js"></script>
 
 {{!--Create form to update data--}}
 <h2>Updating A Game's Data</h2>

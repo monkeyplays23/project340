@@ -13,7 +13,7 @@ function deleteGenre(genre_ID) {
         deleteRow(genre_ID);
       }
     });
-  }
+}
 
 function deleteRow(genre_ID){
   let table = document.getElementById("GenresTable");
@@ -24,9 +24,9 @@ function deleteRow(genre_ID){
           break;
         }
     }
-  }
+}
 
-  function deleteDropDownMenu(genre_ID){
+function deleteDropDownMenu(genre_ID){
     let selectMenu = document.getElementById("selected_title");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(genre_ID)){
@@ -34,4 +34,4 @@ function deleteRow(genre_ID){
         break;
       }
     }
-  }
+}

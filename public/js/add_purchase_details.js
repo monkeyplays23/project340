@@ -1,39 +1,37 @@
-let addGenreForm = document.getElementById('addGenre-AJAX-form');
+let addPurchaseDetailsManyForm = document.getElementById('addPurchaseDetails-AJAX-form');
 
 // Modify the objects we need
-addGenreForm.addEventListener("submit", function (e) {
+addPurchaseDetailsManyForm.addEventListener("submit", function (e) {
 
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputTitle = document.getElementById("input-title");
+    let inputGame = document.getElementById("selected_game");
 
     // Get the values from the form fields
-    let titleValue = inputTitle.value;
-
+    let gameValue = inputGame.value;
 
     // Put our data we want to send in a javascript object
     let data = {
-        genre_title: titleValue,
+        game_ID: gameValue
     }
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/addGenre-AJAX/", true);
+    xhttp.open("POST", "/addPurchaseDetails-AJAX/", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
+        if (xhttp.readyState == 3 && xhttp.status == 200) {
 
             // Add the new data to the table
             addRowToTable(xhttp.response);
-            location.reload();
             // Clear the input fields for another transaction
-            inputTitle.value = '';
+            inputGame.value = '';
         }
-        else if (xhttp.readyState == 4 && xhttp.status != 200) {
+        else if (xhttp.readyState == 3 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -45,11 +43,11 @@ addGenreForm.addEventListener("submit", function (e) {
 
 
 // Creates a single row from an Object representing a single record from
-// Genres
+// PurchaseDetailss
 addRowToTable = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
-    let currentTable = document.getElementById("GenresTable");
+    let currentTable = document.getElementById("PurchaseDetailsTable");
 
     // Get the location where we should insert the new row (end of table)
     let newRowIndex = currentTable.rows.length;
@@ -61,34 +59,39 @@ addRowToTable = (data) => {
     // Create a row and 4 cells
     let row = document.createElement("TR");
     let idCell = document.createElement("TD");
-    let titleCell = document.createElement("TD");
+    let PidCell = document.createElement("TD");
+    let gameCell = document.createElement("TD");
+    let priceCell = document.createElement("TD");
 
     let deleteCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.genre_ID;
-    titleCell.innerText = newRow.genre_title;
-
+    idCell.innerText = newRow.game_purch_details_ID;
+    //PidCell.innerText = newRow.purch_ID;
+    gameCell.innerText = newRow.game_ID;
+    //priceCell.innerText = newRow.game_price;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
     deleteCell.onclick = function(){
-        deleteGenre(newRow.genre_ID)
+        deletePurchaseDetails(newRow.game_purch_details_ID)
     };
 
     // Add the cells to the row
     row.appendChild(idCell);
-    row.appendChild(titleCell);
+    //row.appendChild(PidCell);
+    row.appendChild(gameCell);
+    //row.appendChild(priceCell);
 
     row.appendChild(deleteCell);
     // Add the row to the table
-    row.setAttribute('data-value', newRow.genre_ID);
+    row.setAttribute('data-value', newRow.game_purch_details_ID);
 
     currentTable.appendChild(row);
 
-    let selectMenu = document.getElementById("selected_title");
+    let selectMenu = document.getElementById("selected_game");
     let option = document.createElement("option");
-    option.text = newRow.genre_title;
-    option.value = newRow.genre_ID;
+    option.text = newRow.game_ID;
+    option.value = newRow.game_purch_details_ID;
     selectMenu.add(option);
 }

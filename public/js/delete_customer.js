@@ -13,7 +13,7 @@ function deleteCustomer(cust_ID) {
         deleteRow(cust_ID);
       }
     });
-  }
+}
 
 function deleteRow(cust_ID){
   let table = document.getElementById("CustomersTable");
@@ -24,9 +24,9 @@ function deleteRow(cust_ID){
           break;
         }
     }
-  }
+}
 
-  function deleteDropDownMenu(cust_ID){
+function deleteDropDownMenu(cust_ID){
     let selectMenu = document.getElementById("selected_fullname");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(cust_ID)){
@@ -34,4 +34,4 @@ function deleteRow(cust_ID){
         break;
       }
     }
-  }
+}

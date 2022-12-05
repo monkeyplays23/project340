@@ -13,7 +13,7 @@ function deleteGame(game_ID) {
         deleteRow(game_ID);
       }
     });
-  }
+}
 
 function deleteRow(game_ID){
   let table = document.getElementById("GamesTable");
@@ -24,9 +24,9 @@ function deleteRow(game_ID){
           break;
         }
     }
-  }
+}
 
-  function deleteDropDownMenu(game_ID){
+function deleteDropDownMenu(game_ID){
     let selectMenu = document.getElementById("selected_title");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(game_ID)){
@@ -34,4 +34,4 @@ function deleteRow(game_ID){
         break;
       }
     }
-  }
+}

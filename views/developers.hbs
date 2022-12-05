@@ -29,6 +29,7 @@
 <script src="./js/delete_developer.js"></script>
 
 
+<div>
 <h2>Search Using an HTML Form</h2>
 <p>Search by last name using the field below. Partial names are OK too!</p>
 <form id="search-developer-html" method='GET' action='/developers'>
@@ -36,8 +37,9 @@
     <input type="text" name="devname" id="input-devname-html-search">
 
     <input type="submit">
-    <a href='/'><button>Reset</button></a>
 </form>
+    <a href='/developers'><button>Reset</button></a>
+</div>
 
 
 {{!--Create form to add data--}}

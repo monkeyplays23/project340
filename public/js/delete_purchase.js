@@ -13,25 +13,40 @@ function deletePurchase(purch_ID) {
         deleteRow(purch_ID);
       }
     });
-  }
+}
 
 function deleteRow(purch_ID){
   let table = document.getElementById("PurchasesTable");
     for (let i = 0, row; row = table.rows[i]; i++) {
-      if (table.rows[i].getAttribute("data-value") == purch_ID) {
+      if (table.rows[i].cells[0].innerHTML == purch_ID) {
           table.deleteRow(i);
-          deleteDropDownMenu(purch_ID);
+          table.deleteRow(i+1);
+          deleteDropDownMenus(purch_ID);
           break;
         }
     }
-  }
+}
 
-  function deleteDropDownMenu(purch_ID){
-    let selectMenu = document.getElementById("selected_title");
+function deleteDropDownMenus(purch_ID){
+    let selectMenu = document.getElementById("input-pID");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(purch_ID)){
         selectMenu[i].remove();
         break;
       }
     }
-  }
+    let selectMenu2 = document.getElementById("input-pID_for_pd");
+    for (let i = 0; i < selectMenu2.length; i++){
+      if (Number(selectMenu2.options[i].value) === Number(purch_ID)){
+        selectMenu[i].remove();
+        break;
+      }
+    }
+    let selectMenu3 = document.getElementById("selected_pID_for_add");
+    for (let i = 0; i < selectMenu3.length; i++){
+      if (Number(selectMenu3.options[i].value) === Number(purch_ID)){
+        selectMenu[i].remove();
+        break;
+      }
+    }
+}

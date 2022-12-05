@@ -27,7 +27,7 @@
 </table>
 <script src="./js/delete_genre.js"></script>
 
-
+<div>
 <h2>Search Using an HTML Form</h2>
 <p>Search by title using the field below. Partial titles are OK too!</p>
 <form id="search-genre-html" method='GET' action='/genres'>
@@ -35,9 +35,9 @@
     <input type="text" name="title" id="input-title-html-search">
 
     <input type="submit">
-    <a href='/'><button>Reset</button></a>
 </form>
-
+    <a href='/genres'><button>Reset</button></a>
+</div>
 
 {{!--Create form to add data--}}
 <h2>Add Genre via AJAX</h2>
