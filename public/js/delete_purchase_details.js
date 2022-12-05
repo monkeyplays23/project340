@@ -11,6 +11,7 @@ function deletePurchaseDetails(game_purch_details_ID) {
       contentType: "application/json; charset=utf-8",
       success: function(result) {
         deleteRow(game_purch_details_ID);
+        location.reload();
       }
     });
 }

@@ -11,6 +11,7 @@ function deletePurchase(purch_ID) {
       contentType: "application/json; charset=utf-8",
       success: function(result) {
         deleteRow(purch_ID);
+        location.reload();
       }
     });
 }
