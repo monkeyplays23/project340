@@ -27,7 +27,7 @@ function deleteRow(game_ID){
 }
 
 function deleteDropDownMenu(game_ID){
-    let selectMenu = document.getElementById("selected_title");
+    let selectMenu = document.getElementById("selected_gametitle");
     for (let i = 0; i < selectMenu.length; i++){
       if (Number(selectMenu.options[i].value) === Number(game_ID)){
         selectMenu[i].remove();

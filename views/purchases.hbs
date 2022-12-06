@@ -128,19 +128,19 @@
     <legend><strong>Add Purchase Details</strong></legend>
         <fieldset class="fields">
         <label for="input-pID_for_add">Purchase ID: </label>
-        <select name="input-pID_for_add" id="selected_pID_for_add">
-            <option value="test">Select a Purchase</option>
-            <option value="">Null</option>
-            {{#each data}}
-            <option value="{{this.purch_ID}}">{{this.purch_ID}}</option>
-            {{/each}}
-        </select>
-        <label for="input-game"> Game: </label>
-            <select name="input-game" id="selected_game">
-                    <option value="test">Select a game</option>
-                    {{#each games}}
-                    <option value="{{this.game_ID}}">{{this.game_title}} </option>
-                    {{/each}}
+            <select name="input-pID_for_add" id="selected_pID_for_add">
+                <option value="test">Select a Purchase</option>
+                <option value="">Null</option>
+                {{#each data}}
+                <option value="{{this.purch_ID}}">{{this.purch_ID}}</option>
+                {{/each}}
+            </select>
+        <label for="input-game_for_pd"> Game: </label>
+            <select name="input-game_for_pd" id="selected_game_for_pd">
+                <option value="test">Select a game</option>
+                {{#each games}}
+                <option value="{{this.game_ID}}">{{this.game_title}} </option>
+                {{/each}}
             </select>
     </fieldset>
         <input type="submit">

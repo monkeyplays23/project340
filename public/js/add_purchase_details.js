@@ -1,19 +1,22 @@
-let addPurchaseDetailsManyForm = document.getElementById('addPurchaseDetails-AJAX-form');
+let addPurchaseDetailsForm = document.getElementById('addPurchaseDetails-AJAX-form');
 
 // Modify the objects we need
-addPurchaseDetailsManyForm.addEventListener("submit", function (e) {
+addPurchaseDetailsForm.addEventListener("submit", function (e) {
 
     // Prevent the form from submitting
     e.preventDefault();
 
     // Get form fields we need to get data from
-    let inputGame = document.getElementById("selected_game");
+    let inputPurch = document.getElementById("selected_pID_for_add");
+    let inputGame = document.getElementById("selected_game_for_pd");
 
     // Get the values from the form fields
+    let purchValue = inputPurch.value;
     let gameValue = inputGame.value;
 
     // Put our data we want to send in a javascript object
     let data = {
+        purch_ID: purchValue,
         game_ID: gameValue
     }
 
@@ -24,14 +27,15 @@ addPurchaseDetailsManyForm.addEventListener("submit", function (e) {
 
     // Tell our AJAX request how to resolve
     xhttp.onreadystatechange = () => {
-        if (xhttp.readyState == 3 && xhttp.status == 200) {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
-            addRowToTable(xhttp.response);
+            addRowToTable2(xhttp.response);
+            location.reload();
             // Clear the input fields for another transaction
             inputGame.value = '';
         }
-        else if (xhttp.readyState == 3 && xhttp.status != 200) {
+        else if (xhttp.readyState == 4 && xhttp.status != 200) {
             console.log("There was an error with the input.")
         }
     }
@@ -44,7 +48,7 @@ addPurchaseDetailsManyForm.addEventListener("submit", function (e) {
 
 // Creates a single row from an Object representing a single record from
 // PurchaseDetailss
-addRowToTable = (data) => {
+addRowToTable2 = (data) => {
 
     // Get a reference to the current table on the page and clear it out.
     let currentTable = document.getElementById("PurchaseDetailsTable");
@@ -67,9 +71,9 @@ addRowToTable = (data) => {
 
     // Fill the cells with correct data
     idCell.innerText = newRow.game_purch_details_ID;
-    //PidCell.innerText = newRow.purch_ID;
+    PidCell.innerText = newRow.purch_ID;
     gameCell.innerText = newRow.game_ID;
-    //priceCell.innerText = newRow.game_price;
+    priceCell.innerText = newRow.game_price;
 
     deleteCell = document.createElement("button");
     deleteCell.innerHTML = "Delete";
@@ -79,9 +83,9 @@ addRowToTable = (data) => {
 
     // Add the cells to the row
     row.appendChild(idCell);
-    //row.appendChild(PidCell);
+    row.appendChild(PidCell);
     row.appendChild(gameCell);
-    //row.appendChild(priceCell);
+    row.appendChild(priceCell);
 
     row.appendChild(deleteCell);
     // Add the row to the table
@@ -89,9 +93,9 @@ addRowToTable = (data) => {
 
     currentTable.appendChild(row);
 
-    let selectMenu = document.getElementById("selected_game");
+    let selectMenu = document.getElementById("selected_pdID");
     let option = document.createElement("option");
-    option.text = newRow.game_ID;
+    option.text = newRow.game_genre_details_ID;
     option.value = newRow.game_purch_details_ID;
     selectMenu.add(option);
 }

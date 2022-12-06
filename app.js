@@ -1,9 +1,43 @@
+/*CITATIONS
+    1]
+        Various information from the course throughout the course period.
+        ADAPTED
+
+    2]
+        DATE: 10/27/2022
+        COPIED AND ADAPTED
+        SOURCE URL:https://canvas.oregonstate.edu/courses/1890458/files/94269543?wrap=1
+
+    3]
+        DATE: 11/08/2022
+        COPIED AND ADAPTED
+        SOURCE URL:https://github.com/osu-cs340-ecampus/nodejs-starter-app
+
+
+    4]
+        DATE: 12/2/2022
+        ADAPTED FROM: w3schools
+        SOURCE URL: https://www.w3schools.com/jsref/met_loc_reload.asp
+
+        5]
+        DATE: 12/3/2022
+        ADAPTED FROM: w3schools
+        SOURCE URL: https://www.w3schools.com/sql/sql_case.asp
+
+
+
+
+
+*/
+
+
+
 var express = require('express');
 var app = express();
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-PORT = 7999;
+PORT = 5579;
 
 // Database
 var db = require('./database/db-connector');
@@ -24,13 +58,15 @@ app.use(express.static('public'));              // Tell express to use the handl
     ROUTES
 */
 
-// INDEX
+// INDEX ------------------------------------------------------------------------------------------
 app.get('/index', function(req, res)
     {    // Execute the query
             res.render('index');                  // Render the index.hbs file, and also send the renderer                                                // an object where 'data' is equal to the 'rows' we
     });
 
-//CUSTOMERS
+
+
+//CUSTOMERS ------------------------------------------------------------------------------------------
 app.get('/customers', function(req, res)
     {
         let query1               // Define our query
@@ -149,7 +185,9 @@ app.put('/putCustomer-AJAX/', function(req,res,next){
         }
     })});
 
-//DEVELOPERS
+
+
+//DEVELOPERS ------------------------------------------------------------------------------------------
 app.get('/developers', function(req, res)
     {
         let query1               // Define our query
@@ -261,7 +299,7 @@ app.put('/putDeveloper-AJAX/', function(req,res,next){
 
 
 
-//GENRES
+//GENRES ------------------------------------------------------------------------------------------
     app.get('/genres', function(req, res)
     {
         let query1               // Define our query
@@ -371,7 +409,8 @@ app.put('/putGenre-AJAX/', function(req,res,next){
     })});
 
 
-//GAMES
+
+//GAMES ------------------------------------------------------------------------------------------
 app.get('/games', function(req, res)
 {
     let queryGames
@@ -411,13 +450,92 @@ app.get('/games', function(req, res)
                 {
                     db.pool.query(queryGenres, function(error, types, fields)
                     {
-                        res.render('games', {data: rows, developer: devs, gamesgenres: info, allgames: allgame, generes: types});                 // Render the index.hbs file, and also send the renderer
+                        res.render('games', {data: rows, developer: devs, gamesgenres: info, allgames: allgame, genres: types});                 // Render the index.hbs file, and also send the renderer
                     })
                 })
             })
         })
     })
 });
+
+
+app.post('/addGame-AJAX/', function(req, res)
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+
+        // Create the query and run it on the database
+        query1 = `INSERT INTO Games (game_title, game_price, dev_ID) VALUES ('${data.game_title}', '${data.game_price}', '${data.dev_ID}')`;
+        db.pool.query(query1, function(error, rows, fields){
+
+            // Check to see if there was an error
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT on Purchases
+                query2  = "SELECT Games.game_ID, Games.game_title, Games.game_price, Developers.dev_name FROM Games INNER JOIN Developers ON Games.dev_ID = Developers.dev_ID ";
+                db.pool.query(query2, function(error, rows, fields){
+
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+
+
+    app.post('/addGameGenre-AJAX/', function(req, res)
+    {
+        // Capture the incoming data and parse it back to a JS object
+        let data = req.body;
+
+        // Create the query and run it on the database
+        query1 = `INSERT INTO Games_Genres_Details (genre_ID, game_ID) VALUES ('${data.genre_ID}', '${data.game_ID}')`;
+        db.pool.query(query1, function(error, rows, fields){
+
+            // Check to see if there was an error
+            if (error) {
+
+                // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                console.log(error)
+                res.sendStatus(400);
+            }
+            else
+            {
+                // If there was no error, perform a SELECT on Purchases
+                query2 = "SELECT Games_Genres_Details.game_genre_details_ID, Genres.genre_title, Games.game_title FROM Games_Genres_Details INNER JOIN Games ON Games_Genres_Details.game_ID = Games.game_ID INNER JOIN Genres ON Games_Genres_Details.genre_ID = Genres.genre_ID ORDER BY Games_Genres_Details.game_genre_details_ID";
+                db.pool.query(query2, function(error, rows, fields){
+
+                    // If there was an error on the second query, send a 400
+                    if (error) {
+                        // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                        console.log(error);
+                        res.sendStatus(400);
+                    }
+                    // If all went well, send the results of the query back.
+                    else
+                    {
+                        res.send(rows);
+                    }
+                })
+            }
+        })
+    });
+
 
 
 app.delete('/deleteGame-AJAX/', function(req,res,next){
@@ -436,9 +554,25 @@ app.delete('/deleteGame-AJAX/', function(req,res,next){
         })
 });
 
+app.delete('/deleteGameGenre-AJAX/', function(req,res,next){
+    let data = req.body;
+    let game_genre_details_ID = parseInt(data.game_genre_details_ID);
+    let deleteGame= `DELETE FROM Games_Genres_Details WHERE game_genre_details_ID = ?`
+    // Run the query
+    db.pool.query(deleteGame, [game_genre_details_ID], function(error, rows, fields) {
+
+        if (error) {
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(204);
+        }
+        })
+});
 
 
-// PURCHASES
+
+// PURCHASES ------------------------------------------------------------------------------------------
 app.get('/purchases', function(req, res)
 {
     let query1    // Define our query
@@ -523,7 +657,7 @@ app.post('/addPurchase-AJAX/', function(req, res)
         })
     });
 
-app.post('/addPurchaseDetails-AJAX/', function(req, res)
+app.post('/addPurchaseDetailsForPurchasesAdd-AJAX/', function(req, res)
     {
         // Capture the incoming data and parse it back to a JS object
         let data = req.body;
@@ -562,13 +696,13 @@ app.post('/addPurchaseDetails-AJAX/', function(req, res)
         })
     });
 
-app.post('/addPurchaseDetailsMany-AJAX/', function(req, res)
+app.post('/addPurchaseDetails-AJAX/', function(req, res)
     {
         // Capture the incoming data and parse it back to a JS object
         let data = req.body;
 
         // Create the query and run it on the database
-        query1 = `INSERT INTO Games_Purchases_Details (purch_ID, game_ID, game_price) VALUES ((SELECT MAX(Purchases.purch_ID) FROM Purchases),'${data.game_ID}', (SELECT Games.game_price FROM Games WHERE Games.game_ID = '${data.game_ID}'))`;
+        query1 = `INSERT INTO Games_Purchases_Details (purch_ID, game_ID, game_price) VALUES (CASE WHEN '${data.purch_ID}' = '' THEN NULL ELSE '${data.purch_ID}' END,'${data.game_ID}', (SELECT Games.game_price FROM Games WHERE Games.game_ID = '${data.game_ID}'))`;
         db.pool.query(query1, function(error, rows, fields){
 
             // Check to see if there was an error

@@ -1,5 +1,5 @@
 let addPurchaseForm = document.getElementById('addPurchase-AJAX-form');
-let addPurchaseDetailsForm = document.getElementById('addPurchase-AJAX-form');
+let addPurchaseDetailsFormForAdd = document.getElementById('addPurchase-AJAX-form');
 
 // Modify the objects we need
 addPurchaseForm.addEventListener("submit", function (e) {
@@ -102,9 +102,10 @@ addRowToTable1 = (data) => {
 
 
 
+//PURCHDETAIL ADD FOR PURCHASES
 
 // Modify the objects we need
-addPurchaseDetailsForm.addEventListener("submit", function (e) {
+addPurchaseDetailsFormForAdd.addEventListener("submit", function (e) {
 
     // Prevent the form from submitting
     e.preventDefault();
@@ -122,7 +123,7 @@ addPurchaseDetailsForm.addEventListener("submit", function (e) {
 
     // Setup our AJAX request
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/addPurchaseDetails-AJAX/", true);
+    xhttp.open("POST", "/addPurchaseDetailsForPurchasesAdd-AJAX/", true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
     // Tell our AJAX request how to resolve
@@ -195,7 +196,7 @@ addRowToTable2 = (data) => {
 
     let selectMenu = document.getElementById("selected_game");
     let option = document.createElement("option");
-    option.text = newRow.game_ID;
-    option.value = newRow.game_purch_details_ID;
+    option.text = newRow.game_title;
+    option.value = newRow.game_ID;
     selectMenu.add(option);
 }
